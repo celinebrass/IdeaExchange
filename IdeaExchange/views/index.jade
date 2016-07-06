@@ -16,16 +16,15 @@ block preLinkedScripts
 
 block content
   .row
-    .col-sm-1
-    .col-sm-10
+    .col-sm-2
+    .col-sm-8
       table#allIdeas.table.table-striped.table-hover.table-bordered
         thead
           th Name
           th Description
-          th Creator
+          th Discussion
         tbody
-      br
-      br
+    .col-sm-2
   #myModal.modal.fade(data-backdrop='false')
     .modal-dialog
       .modal-content
@@ -42,3 +41,4 @@ block linkedScripts
   script(src="/javascript/allIdeas.js")
   script(src='//cdn.datatables.net/1.10.5/js/jquery.dataTables.js')
   script(src='http://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/2/dataTables.bootstrap.js')
+  link(href='/stylesheets/tablestyle.css', rel='stylesheet')

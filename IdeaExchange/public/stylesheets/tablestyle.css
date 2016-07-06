@@ -1,0 +1,13 @@
+#tableName{
+  margin: 1rem auto 1rem auto;
+  text-align: center;
+}
+
+#tagName, #author{
+  font-style: italic
+}
+
+#tagline{
+  font-weight: bold;
+  color: #444444
+}

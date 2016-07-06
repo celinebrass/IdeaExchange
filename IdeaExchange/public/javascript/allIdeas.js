@@ -1,26 +1,55 @@
-var recentActivityTable = null;
+var allIdeas = null;
 var ideaTable = {};
 
 $(document).ready(function() {
-  console.log("Ready");
 	populateTableAllIdeas();
 });
 
 function populateTableAllIdeas() {
-
-  console.log("Looking for Ideas");
 	$.getJSON('/ideas', function(data) {
 		JSON.stringify(data);
-
 		allIdeas = $('#allIdeas').DataTable({
 			destroy: true,
 			data: data,
 			"order": [ 0, 'desc' ],
-			"pageLength" : 25,
+			"pageLength" : 10,
 			columns: [
-				{ data: 'name', width:'10%' },
-				{ data: 'description', width: '10%' },
-				{ data: 'creator', width: '40%' },
+        {
+          data: {
+            name: "name",
+            tags: "tags"
+          },
+          width: "20%",
+          render :
+          function(data, type, row){
+            return "<h2 id=tableName>" +  data.name + "</h2> <p id=tagName>" + (data.tags[0] ? data.tags[0]: "") + (data.tags[1] ? ", " + data.tags[1]: "") + (data.tags[2] ? ", " + data.tags[2]: "") + "</p>";
+          }
+        },
+
+        {
+          width: "60%",
+          data: {
+            tagline : "tagline",
+            description: "description",
+            creator: "creator"
+          },
+          render :
+          function(data, type, row){
+            return "<p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p>";
+          }
+
+        },
+        {
+          width: "15%",
+          data: {
+            likers : "likers",
+            //comments: "comments.length"
+          },
+          render :
+          function(data, type, row){
+            return "<img src=/images/likeImage.png width=30rem height=30rem id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + comments </p>";
+          }
+        },
 			],
 			language: {
 				emptyTable: function () {
@@ -28,7 +57,7 @@ function populateTableAllIdeas() {
 				}
 			},
 			drawCallback: function (settings) {
-				var pgr = $(settings.nTableWrapper).find('.dataTables_paginate')
+				var pgr = $(settings.nTableWrapper).find('.dataTables_paginate');
 				if (settings._iDisplayLength >= settings.fnRecordsDisplay()) {
 					pgr.hide();
 				}

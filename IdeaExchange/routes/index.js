@@ -11,6 +11,11 @@ router.get('/', function(req, res, next) {
    res.render('index', { title: 'Express' });
 });
 
+/* Bubble Page, will be transferred to the home page eventually */
+router.get('/bubbles', function(req, res, next) {
+   res.render('bubbles');
+});
+
 router.get('/ideas', function(req, res, next){
   Idea.find(function(err, ideas){
     if (err) throw err;
@@ -39,11 +44,14 @@ router.post('/newIdea', function (req, res, next){
 
 ///////////TEST ROUTE//////////
 router.get('/testIdea', function(req, res, next) {
+  var testLikers = new Array(Math.Floor(Math.random()*40)+10);
+  console.log(testLikers.length);
   var newIdea = new Idea({
     creator: "jimbob",
     description: "owiejeowijeowifjewoifj",
     name: "testIdea",
-    tagline: "short"
+    tagline: "short",
+    likers: testLikers
   });
 
   newIdea.save(function(err, idea){
