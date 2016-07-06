@@ -7,8 +7,8 @@ $(document).ready(function() {
 function populateBubbleAllIdeas() {
    d3.json("/ideas", function(data) {
     console.log(d3);
-    var width = 960,
-      height = 500,
+    var width = window.innerWidth,
+      height = window.innerHeight,
       padding = 1.5, // separation between same-color circles
       clusterPadding = 6, // separation between different-color circles
       maxRadius = 12;
@@ -27,6 +27,7 @@ function populateBubbleAllIdeas() {
     var count = 0;
     // The current tag that we will be grouping on
     var currentClusterTag = [data[0].tags[0]];
+
     var nodes = d3.range(n).map(function() {
       var i = 0;
       for (var j = 0; j < currentClusterTag.length; j++) {
@@ -39,7 +40,9 @@ function populateBubbleAllIdeas() {
         }
       }
       var r = Math.sqrt(data[count].likers.length) + minRadiusSq,
-          d = {cluster: i, radius: r};
+          label = data[count].name,
+          o = r,
+          d = {cluster: i, originalR: o, radius: r, label: label};
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       count++;
       return d;
@@ -59,10 +62,14 @@ function populateBubbleAllIdeas() {
 
     var circle = svg.selectAll("circle")
         .data(nodes)
-      .enter().append("circle")
+        .enter().append("circle")
         .attr("r", function(d) { return d.radius; })
+        .attr("o", function(d) { return d.originalR; })
+        .text(function(d) { return d.label; })
         .style("fill", function(d) { return color(d.cluster); })
-        .call(force.drag);
+        .call(force.drag)
+        .on("mouseover", onMouseover)
+        .on("mouseleave", onMouseleave);
 
     function tick(e) {
       circle
@@ -70,6 +77,18 @@ function populateBubbleAllIdeas() {
           .each(collide(0.5))
           .attr("cx", function(d) { return d.x; })
           .attr("cy", function(d) { return d.y; });
+    }
+
+    function onMouseover() {
+      var circle = d3.select(this);
+      circle.transition().duration(300)
+        .attr("r", circle.attr("o") * 1 + 10 );
+    }
+
+    function onMouseleave() {
+      var circle = d3.select(this);
+      circle.transition().duration(200)
+        .attr("r", circle.attr("o"));
     }
 
     // Move d to be adjacent to the cluster node.
