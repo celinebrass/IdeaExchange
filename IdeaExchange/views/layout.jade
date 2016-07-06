@@ -7,7 +7,7 @@ html(lang='en')
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     script(src='/bootstrap/js/bootstrap.min.js')
-    
+
     style.
       .alert.alert-dismissable {
         margin-bottom: 0px;
@@ -40,20 +40,18 @@ html(lang='en')
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            img(src='/images/C1_Core_G_2955_1807_R.eps')
             a.navbar-brand(href="/", style='font-weight: bold')
               | &nbsp;&nbsp;ThoughtBubble&nbsp;&nbsp;
 
           #navbar-main.navbar-collapse.collapse
             ul.nav.navbar-nav
+              //li
+              //  a(href='../') Home
+              //li
+              //  a(href='../ideas/') All Ideas
               li
-                a(href='../') Recent Activity
-              li
-                a(href='../trends/') Trends
-              li
-                a(href='../trendstest/') Trends Test
-              li
-                a(href='../recenttest/') Recent Test
+                a(href='../newIdea/') Submit Idea
+
     br
 
     .hidden-xs.page-header
@@ -61,9 +59,11 @@ html(lang='en')
     .hidden.visible-xs
       br
       br
-    
+
 
     block content
-            
+
     block linkedScripts
         script(src='/javascripts/typeahead.jquery.js')
+  .navbar.navbar-default.navbar-fixed-bottom
+    img.center-block(src='/images/C1_Core_G_2955_1807_R.jpeg', height='100', width='300')

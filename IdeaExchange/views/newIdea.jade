@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  form.form-horizontal
+    fieldset
+      legend Submit an idea
+      .form-group
+        label.col-lg-2.control-label(for='inputName') Idea Name
+        .col-lg-10
+          input#inputName.form-control(type='text', placeholder='Name')
+      .form-group
+        label.col-lg-2.control-label(for='inputCreator') Name of Creator
+        .col-lg-10
+          input#inputPassword.form-control(type='password', placeholder='Name of Creator')
+      .form-group
+        label.col-lg-2.control-label(for='tagLine') Tag line
+        .col-lg-10
+          input#inputName.form-control(type='text', placeholder='Tag Line')
+      .form-group
+        label.col-lg-2.control-label(for='textArea') Description
+        .col-lg-10
+          textarea#textArea.form-control(rows='3')
+          span.help-block
+       .form-group
+        label.col-lg-2.control-label(for='Tags') Tags
+        .col-lg-10
+          input#inputName.form-control(type='text', placeholder='Tags')
+      .form-group
+        .col-lg-10.col-lg-offset-2
+          button.btn.btn-default(type='reset') Cancel
+          button.btn.btn-primary(type='submit') Submit

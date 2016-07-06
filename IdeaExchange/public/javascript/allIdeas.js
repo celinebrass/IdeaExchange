@@ -1,4 +1,4 @@
-var recentActivityTable = null;
+var allIdeas = null;
 var ideaTable = {};
 
 $(document).ready(function() {
