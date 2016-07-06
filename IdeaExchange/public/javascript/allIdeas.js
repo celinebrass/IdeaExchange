@@ -2,13 +2,10 @@ var recentActivityTable = null;
 var ideaTable = {};
 
 $(document).ready(function() {
-  console.log("Ready");
 	populateTableAllIdeas();
 });
 
 function populateTableAllIdeas() {
-
-  console.log("Looking for Ideas");
 	$.getJSON('/ideas', function(data) {
 		JSON.stringify(data);
 		allIdeas = $('#allIdeas').DataTable({
@@ -17,15 +14,21 @@ function populateTableAllIdeas() {
 			"order": [ 0, 'desc' ],
 			"pageLength" : 25,
 			columns: [
-        { data: "name",
+        {
+          data: {
+            name: "name",
+            tags: "tags"
+          },
+          width: "20%",
           render :
           function(data, type, row){
             console.log(data);
-            return "<h2 id=tableName>" +  data + "</h2>";
+            return "<h2 id=tableName>" +  data.name + "</h2> <p id=tagName>" + data.tags[0] + ", " + data.tags[1] + ", " + data.tags[2] + "</p>";
           }
         },
 
         {
+          width: "60%",
           data: {
             tagline : "tagline",
             description: "description",
@@ -33,19 +36,19 @@ function populateTableAllIdeas() {
           },
           render :
           function(data, type, row){
-            console.log(data);
-            return "<p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author>" + data.creator + "</p>";
+            return "<p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p>";
           }
 
         },
         {
+          width: "15%",
           data: {
-            likes : "likers.length",
+            likers : "likers",
             //comments: "comments.length"
           },
           render :
           function(data, type, row){
-            return "<img src=/images/likeImage.png width=20px height=20px id=facebookLike> <p id=likeCount>" + likes + "</p><p id=commentCount> comments </p>";
+            return "<img src=/images/likeImage.png width=20px height=20px id=facebookLike> <p id=likeCount>" + data.likers.length + "</p><p id=commentCount> comments </p>";
           }
         },
 			],
