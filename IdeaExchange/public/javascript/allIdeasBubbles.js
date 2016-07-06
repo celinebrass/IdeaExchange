@@ -7,8 +7,8 @@ $(document).ready(function() {
 function populateBubbleAllIdeas() {
    d3.json("/ideas", function(data) {
     console.log(d3);
-    var width = 960,
-      height = 500,
+    var width = window.innerWidth,
+      height = window.innerHeight,
       padding = 1.5, // separation between same-color circles
       clusterPadding = 6, // separation between different-color circles
       maxRadius = 12;
