@@ -18,6 +18,26 @@ router.get('/ideas', function(req, res, next){
   });
 });
 
+router.get('/newIdea', function(req, res, next){
+  res.render('newIdea');
+});
+
+router.post('/newIdea', function (req, res, next){
+  var newIdea = new Idea({
+    creator: req.body.creator,
+    description: req.body.description,
+    name: req.body.name,
+    tagline: req.body.tagline
+  });
+
+  newIdea.save(function(err, idea){
+    if (err) throw err;
+    console.log("saved!");
+    res.json("success");
+  });
+});
+
+///////////TEST ROUTE//////////
 router.get('/testIdea', function(req, res, next) {
   var newIdea = new Idea({
     creator: "jimbob",
@@ -29,6 +49,7 @@ router.get('/testIdea', function(req, res, next) {
   newIdea.save(function(err, idea){
     if (err) throw err;
     console.log("saved!");
+
   });
 });
 
