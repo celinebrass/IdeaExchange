@@ -12,7 +12,7 @@ function populateTableAllIdeas() {
 			destroy: true,
 			data: data,
 			"order": [ 0, 'desc' ],
-			"pageLength" : 25,
+			"pageLength" : 10,
 			columns: [
         {
           data: {
@@ -22,8 +22,7 @@ function populateTableAllIdeas() {
           width: "20%",
           render :
           function(data, type, row){
-            console.log(data);
-            return "<h2 id=tableName>" +  data.name + "</h2> <p id=tagName>" + data.tags[0] + ", " + data.tags[1] + ", " + data.tags[2] + "</p>";
+            return "<h2 id=tableName>" +  data.name + "</h2> <p id=tagName>" + (data.tags[0] ? data.tags[0]: "") + (data.tags[1] ? ", " + data.tags[1]: "") + (data.tags[2] ? ", " + data.tags[2]: "") + "</p>";
           }
         },
 
@@ -48,7 +47,7 @@ function populateTableAllIdeas() {
           },
           render :
           function(data, type, row){
-            return "<img src=/images/likeImage.png width=20px height=20px id=facebookLike> <p id=likeCount>" + data.likers.length + "</p><p id=commentCount> comments </p>";
+            return "<img src=/images/likeImage.png width=30rem height=30rem id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + comments </p>";
           }
         },
 			],
