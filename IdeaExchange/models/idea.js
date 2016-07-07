@@ -13,9 +13,11 @@ var ideaSchema = new mongoose.Schema({
   createdOn : {type: Date, Default : Date.now},
   likers  :   [String],
   files   :   [String],
-  //comments:   [commentSchema]
+  comments:   [{
+    commenter: String,
+    text:     String
+  }]
 });
 
-//var commentSchema = new Schema({ commenter: 'string', text: 'string'});
 // create and export to our app
 module.exports = mongoose.model('Idea', ideaSchema);
