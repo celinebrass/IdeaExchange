@@ -4,7 +4,7 @@ var router = express.Router();
 var ejs = require('ejs');
 
 var Idea = require('../models/idea');
-
+//var allIdeas = require('../javascript/allIdeas.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,18 +28,23 @@ router.get('/newIdea', function(req, res, next){
 });
 
 router.post('/newIdea/submit', function (req, res, next){
-  var list = req.body.tagline.split(',');
+  var list = req.body.tags.split(',');
   var newIdea = new Idea({
     name: req.body.name,
+    tagline: req.body.tagline,
     description: req.body.description,
-    tagline: list,
-    claim: null
+    tags: list,
+    claim: "",
+    likers: [""],
+    files: [""],
+    comments: [""],
+    creator: req.body.email
   });
 
   newIdea.save(function(err, newIdea){
     if (err) throw err;
     console.log("saved!");
-    res.json("success");
+    res.redirect('/');
   });
 });
 
@@ -56,6 +61,31 @@ router.post('/addComment', function(req, res, next){
     res.status(500);
   });
 });
+
+router.post('/like', function(req, res, next){
+  console.log(req.body);
+  var email = (req.body.name.split("@"))[0];
+  console.log(email);
+  Idea.findOneAndUpdate({_id:req.body.idea}, {$addToSet:{likers:email}}, function(err){
+    console.log(err);
+    if(err) throw err;
+    console.log("saved comment");
+    res.status(500);
+  });
+});
+
+router.post('/claim', function(req, res, next){
+  console.log(req.body);
+  var email = (req.body.name.split("@"))[0];
+  console.log(email);
+  Idea.findOneAndUpdate({_id:req.body.idea}, {claim: email}, function(err){
+    console.log(err);
+    if(err) throw err;
+    console.log("saved comment");
+    res.status(500);
+  });
+});
+
 
 ///////////TEST ROUTE//////////
 var article = "In communications and information processing, code is a system of rules to convert information—such as a letter, word, sound, image, or gesture—into"+
