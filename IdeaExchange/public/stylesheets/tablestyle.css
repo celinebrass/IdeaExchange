@@ -5,7 +5,8 @@
 }
 
 #allIdeas td{
-  max-height: 10px;
+  height: 10px;
+  max-height: 10;
 }
 #tagSpan{
   position: absolute;
@@ -34,11 +35,17 @@
   font-weight: bold;
   color: #444444
 }
-
-#facebookLike{
-  width: 50%;
-  margin: auto
+#little{
+  float: right;
+  font-style: italic
 }
+img{
+  width: 5%;
+  height: 8%;
+  margin: auto;
+  float: right
+}
+
 
 #commentCount{
   text-align: center;
@@ -63,7 +70,7 @@
   overflow: scroll;
 }
 #modalDialog{
-  margin: 10%;
+  margin: 3%;
   overflow: scroll;
 }
 
@@ -84,4 +91,17 @@ body {
 
 .modal-open {
   overflow-y: auto;
+}
+
+#scrollingDiv{
+  overflow: hidden;
+  height: 100px;
+  max-height: 80%;
+}
+
+#modalLike, #modalComment, #modalClaim{
+  float: right;
+  height: 6%;
+  max-height: 6%;
+  width: 6%;
 }

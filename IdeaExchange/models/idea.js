@@ -17,6 +17,7 @@ var ideaSchema = new mongoose.Schema({
     commenter: String,
     text:     String
   }]
+  
 });
 
 // create and export to our app

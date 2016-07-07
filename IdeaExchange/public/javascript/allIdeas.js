@@ -99,25 +99,16 @@ function populateTableAllIdeas() {
           data: {
             tagline : "tagline",
             description: "description",
-            creator: "creator"
+            creator: "creator",
+            likers: "likers",
+            comments: "comments"
           },
           render :
           function(data, type, row){
-            return "<p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p>";
+            return "<div id=scrollingDiv> <p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p></div><div id=pictureDiv> <img src=/images/likeImage.png id=facebookLike><p id=little> +"+ data.likers.length + "</p><img src=/images/comment.png id=commentPic><p id=little> +"+ data.comments.length + "</p></div>";
           }
 
-        },
-        {
-          width: "15%",
-          data: {
-            likers : "likers",
-            //comments: "comments.length"
-          },
-          render :
-          function(data, type, row){
-            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + " + data.comments.length + " comments </p>";
-          }
-        },
+        }
 			],
 			language: {
 				emptyTable: function () {
@@ -186,6 +177,17 @@ function populateTableAllIdeas() {
             "max-height": "80%",
             overflow: "scroll"
           });
+          $("#commentTable").css({
+            height: "200px"
+          });
+
+          //make the table layout fixed
+          var table = document.getElementById('commentTable');
+          table.style.tableLayout="fixed";
+
+          table.style.whiteSpace = "normal";
+          table.style.wordBreak="normal";
+
           $("#ideaModal").modal('show');
   			}
   		});
