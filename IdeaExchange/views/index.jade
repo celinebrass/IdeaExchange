@@ -8,7 +8,7 @@ block preLinkedScripts
     }
     });
   script(type='text/javascript').
-    function myFunction() {
+    function SAVETHECOOKIE() {
     $("#myModal").modal('hide');
     var email = $("#email").val();
     document.cookie = "email=" + email;
@@ -35,7 +35,7 @@ block content
           p Enter your Capital One email
           .form-group
             input.form-control(type='email', placeholder='Email Address', id='email')
-          button.btn.btn-primary(type='submit', onclick="myFunction()") Enter
+          button.btn.btn-primary(type='submit', onclick="SAVETHECOOKIE()") Enter
 
 block linkedScripts
   script(src="/javascript/allIdeas.js")
