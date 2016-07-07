@@ -22,10 +22,11 @@ $(document).ready(function() {
     document.getElementById("descriptionParagraph").innerHTML = rowData.description + "\n";
     document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
 
+    document.getElementById('modalDialog').style.Width = "200%";
+
     currentRow=rowData._id;
     populateCommentTable(rowData.comments);
 
-    $("#ideaModal").modal('show');
 	});
 
   /* attach a submit handler to the form */
@@ -114,7 +115,7 @@ function populateTableAllIdeas() {
           },
           render :
           function(data, type, row){
-            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + comments </p>";
+            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + " + data.comments.length + " comments </p>";
           }
         },
 			],
@@ -142,11 +143,13 @@ function populateTableAllIdeas() {
         aaData: comments,
   			destroy: true,
         "order": [ 0, 'desc' ],
-        "pagingType": "simple",
-        "pageLength" : 100,
+        "bPaginate": false,
+        "bFilter": false,
+        "bInfo": false,
+        "filter": false,
         scrollY:        200,
         scrollCollapse: true,
-        searchable: false,
+        searching: false,
   			aoColumns: [
           {
             data: {
@@ -174,6 +177,16 @@ function populateTableAllIdeas() {
   					pgr.show();
   				}
           console.log("DONE DRAWING");
+          $("#modalDialog").css({
+            width: "80%",
+            "max-height": "80%",
+            overflow: "scroll"
+          });
+          $("#ideaModal").css({
+            "max-height": "80%",
+            overflow: "scroll"
+          });
+          $("#ideaModal").modal('show');
   			}
   		});
 }

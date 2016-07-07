@@ -4,6 +4,9 @@
   text-align: center;
 }
 
+#allIdeas td{
+  max-height: 10px;
+}
 #tagSpan{
   position: absolute;
   margin-bottom: 0px;
@@ -44,40 +47,41 @@
 #likeCount{
   text-align: center;
 }
-table{
-  display: block;
-  margin-bottom: 30px;
-}
-
-#allIdeas_paginate{
-  margin-bottom: 50px;
-}
-
 
 .modal-backdrop.in {
     opacity: 0;
 }
 #ideaModal{
   max-height: 100%;
-  overflow-y: scroll;
+  overflow: scroll;
   width: 100%
 }
 
 #modalLALA{
   width: 100%;
   padding: 0;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 #modalDialog{
-  margin-left: auto;
-  margin-right: auto;
-  overflow-y: scroll;
+  margin: 10%;
+  overflow: scroll;
 }
 
 #commentTable{
   width: 100%;
 }
 
+#commentForm{
+  margin-left:0
+}
 #tableLALA{
   width: 100%
+}
+
+body {
+  padding-right: 0px !important
+}
+
+.modal-open {
+  overflow-y: auto;
 }

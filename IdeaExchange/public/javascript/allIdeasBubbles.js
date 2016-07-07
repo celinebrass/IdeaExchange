@@ -18,7 +18,7 @@ function handleChange(event) {
 		}
 		else {
 			for (var i = 0; i < data.length; i++) {
-				if (!data[i].tags.includes(tag)) {
+				if (!data[i].tags.includes(tag) && !data[i].name.toLowerCase().includes(tag) && !data[i].tagline.toLowerCase().includes(tag) && !data[i].description.toLowerCase().includes(tag)) {
 					document.getElementById(i).style.opacity = '0.4';
 				}
 				else {
@@ -143,6 +143,39 @@ function populateBubbleAllIdeas() {
 			document.getElementById("t"+this.id).innerHTML = "<tspan>" + data[this.id].creator + " </tspan>" +
 																											 "<tspan>" + data[this.id].tagline + " </tspan>" +
 																											 "<tspan>" + data[this.id].description + "</tspan>";
+		  var tagString = "";
+	    for(var i = 0; i < data[this.id].tags.length; i++){
+	      tagString += data[this.id].tags[i];
+	      tagString += " ";
+	    }
+		 	document.getElementById("modalTitle").innerHTML = data[this.id].name;
+	    document.getElementById("tagParagraph").innerHTML = data[this.id].tagline;
+	    document.getElementById("descriptionParagraph").innerHTML = data[this.id].description + "\n";
+	    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
+			$("#bubbleModal").modal('show');
+
+		/* attach a submit handler to the form */
+			$("#bubbleCommentForm").submit(function(event) {
+
+				/* stop form from submitting normally */
+				event.preventDefault();
+				/* get the action attribute from the <form action=""> element */
+				var $form = $( this ),
+						url = $form.attr( 'action' );
+
+				/* Send the data using post with element id name and name2*/
+				var posting = $.post( '/addComment', {
+					comment: $('#bubbleCommentText').val(),
+					idea: currentRow,
+					name: getCookie("email")
+				});
+				document.getElementById("commentText").value = "";
+
+				/* Alerts the results */
+				posting.done(function( data ) {
+					alert('success');
+				});
+			});
     }
 
     function onMouseleave() {
@@ -159,6 +192,21 @@ function populateBubbleAllIdeas() {
 			document.getElementById("t"+this.id).innerHTML = data[this.id].name;
     }
 
+		function getCookie(c_name)
+		{
+		    var i,x,y,ARRcookies=document.cookie.split(";");
+
+		    for (i=0;i<ARRcookies.length;i++)
+		    {
+		        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		        x=x.replace(/^\s+|\s+$/g,"");
+		        if (x==c_name)
+		        {
+		            return unescape(y);
+		        }
+		     }
+		}
     // Move d to be adjacent to the cluster node.
     function cluster(alpha) {
       return function(d) {
