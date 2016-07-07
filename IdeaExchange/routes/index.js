@@ -4,7 +4,7 @@ var router = express.Router();
 var ejs = require('ejs');
 
 var Idea = require('../models/idea');
-
+//var allIdeas = require('../javascript/allIdeas.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,12 +28,17 @@ router.get('/newIdea', function(req, res, next){
 });
 
 router.post('/newIdea/submit', function (req, res, next){
-  var list = req.body.tagline.split(',');
+  var list = req.body.tags.split(',');
   var newIdea = new Idea({
     name: req.body.name,
+    creator: getCookie("email"),
+    tagline: req.body.tagline,
     description: req.body.description,
-    tagline: list,
-    claim: null
+    tags: list,
+    claim: "",
+    likers: [""],
+    files: [""],
+    comments: [""]
   });
 
   newIdea.save(function(err, newIdea){

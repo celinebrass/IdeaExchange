@@ -1,9 +1,11 @@
 extends layout
 
 block content
-  form.form-horizontal(action="submit",method="post")
+  form.form-horizontal(action="submit",method="post")  
     fieldset
-      h1(id="h2") Submit an Idea
+      legend Submit an ideaTable
+        style
+          include ideaStyle.css
       .form-group
         label.col-lg-2.control-label(for='inputName') Idea Name
         .col-lg-10
@@ -24,7 +26,8 @@ block content
       .form-group
         .col-lg-10.col-lg-offset-2
           button.btn.btn-default(type='reset') Cancel
-          button.btn.btn-primary(type='submit') Submit
-          
+          button.btn.btn-primary(type='submit') Submit  
 block linkedScripts
-  link(rel='stylesheets', href='/stylesheets/ideaStyle.css')  
+  script(src="/javascript/submitIdea.js")
+  link(href='/stylesheets/tablestyle.css', rel='stylesheet')
+    
