@@ -13,16 +13,19 @@ function handleChange(event) {
 
 		if (tag == "") {
 			for (var i = 0; i < data.length; i++) {
-				document.getElementById(i).style.opacity = '1';
+				document.getElementById(i).style.opacity = '0.75';
+				document.getElementById("t"+i).style.opacity = '1';
 			}
 		}
 		else {
 			for (var i = 0; i < data.length; i++) {
 				if (!data[i].tags.includes(tag) && !data[i].name.toLowerCase().includes(tag) && !data[i].tagline.toLowerCase().includes(tag) && !data[i].description.toLowerCase().includes(tag)) {
-					document.getElementById(i).style.opacity = '0.4';
+					document.getElementById(i).style.opacity = '0.2';
+					document.getElementById("t"+i).style.opacity = '0';
 				}
 				else {
 					document.getElementById(i).style.opacity = '1';
+					document.getElementById("t"+i).style.opacity = '1';
 				};
 			}
 		}
@@ -34,18 +37,17 @@ function populateBubbleAllIdeas() {
 	d3.json("/ideas", function(data) {
 
     var width = screen.width,
-      height = screen.height,
+      height = 1500,
       padding = 1.5, // separation between same-color circles
       clusterPadding = 6, // separation between different-color circles
       maxRadius = 12;
-      minRadiusSq = Math.sqrt(data.length*100) + 10;
 
     var n = data.length, // total number of circles
         m = 1; // number of distinct clusters
 
 		document.getElementById("numIdeas").innerHTML = n;
 
-    var color = d3.scale.category10()
+    var color = d3.scale.category20()
         .domain(d3.range(n));
 
     // The largest node for each cluster.
@@ -65,7 +67,7 @@ function populateBubbleAllIdeas() {
           currentClusterTag.push(data[count].tags[0]);
         }
       }
-      var r = Math.sqrt(data[count].likers.length) + minRadiusSq,
+      var r = (data[count].likers.length)/25 + 10,
           label = data[count].name,
           o = r,
           d = {cluster: i, originalR: o, radius: r, label: label, id: count};
@@ -95,6 +97,7 @@ function populateBubbleAllIdeas() {
 				.attr("cluster", function(d) { return d.cluster; })
 				.attr("label", function(d) { return d.label; })
         .style("fill", function(d) { return color(d.cluster); })
+				.style("opacity", 0.75)
         .call(force.drag)
         .on("mouseover", onMouseover)
 				.on("mouseleave", onMouseleave)
@@ -127,10 +130,14 @@ function populateBubbleAllIdeas() {
     function onMouseover() {
       var circle = d3.select(this);
 			document.getElementById('curIdea').innerHTML = this.attributes.label.value;
-			document.getElementById('curTags').innerHTML = data[this.id].tags;
+			document.getElementById('curTags').innerHTML = data[this.id].tags.join(" ");
+			document.getElementById('curLikes').innerHTML = data[this.id].likers.length;
+			this.parentElement.appendChild(this);
+			console.log(data[this.id].likers.length);
 			text[0][this.id].parentElement.appendChild(text[0][this.id]);
       circle.transition().duration(400)
-        .attr("r", circle.attr("o") * 1 + 10 );
+        .attr("r", circle.attr("o") * 1.5 )
+				.style("opacity",1);
     }
 
     function onClick() {
@@ -148,10 +155,11 @@ function populateBubbleAllIdeas() {
 	    document.getElementById("tagParagraph").innerHTML = data[this.id].tagline;
 	    document.getElementById("descriptionParagraph").innerHTML = data[this.id].description + "\n";
 	    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
-			$("#bubbleModal").modal('show');
+			populateCommentTable(this.id);
+			$("#ideaModal").modal('show');
 
 		/* attach a submit handler to the form */
-			$("#bubbleCommentForm").submit(function(event) {
+			$("#commentForm").submit(function(event) {
 
 				/* stop form from submitting normally */
 				event.preventDefault();
@@ -161,7 +169,7 @@ function populateBubbleAllIdeas() {
 
 				/* Send the data using post with element id name and name2*/
 				var posting = $.post( '/addComment', {
-					comment: $('#bubbleCommentText').val(),
+					comment: $('#commentText').val(),
 					idea: currentRow,
 					name: getCookie("email")
 				});
@@ -178,13 +186,15 @@ function populateBubbleAllIdeas() {
       var circle = d3.select(this);
 			var newtext = text[0][this.id];
       circle.transition().duration(400)
-        .attr("r", circle.attr("o"));
+        .attr("r", circle.attr("o"))
+				.style("opacity", 0.75);
 			var firstChild = this.parentNode.firstChild;
 			if (firstChild) {
 					this.parentNode.insertBefore(this, firstChild);
 			}
 			document.getElementById('curIdea').innerHTML = "";
 			document.getElementById('curTags').innerHTML = "";
+			document.getElementById('curLikes').innterHTML = "";
 			document.getElementById("t"+this.id).innerHTML = data[this.id].name;
     }
 
@@ -250,4 +260,71 @@ function populateBubbleAllIdeas() {
       };
     }
   })
+}
+
+function populateCommentTable(i) {
+	console.log("populating comments table");
+	d3.json("/ideas",function(dat) {
+		var comments = dat[i].comments;
+		console.log(comments);
+		$('#commentTable').DataTable({
+				aaData: comments,
+				destroy: true,
+				"order": [ 0, 'desc' ],
+				"bPaginate": false,
+				"bFilter": false,
+				"bInfo": false,
+				"filter": false,
+				scrollY:        200,
+				scrollCollapse: true,
+				searching: false,
+				aoColumns: [
+					{
+						data: {
+							commenter: "commenter",
+							text: "text"
+						},
+						render :
+						function(data, type, row){
+							console.log("DATA YAYYYY");
+							return "<p id=CommenterText>" + data.commenter + ": \n</p> <p id=commentText>" + data.text + "</p>";
+						}
+					}
+				],
+				language: {
+					emptyTable: function () {
+						return '<p class="text-center">There are no comments yet :( .</p>';
+					}
+				},
+				drawCallback: function (settings) {
+					var pgr = $(settings.nTableWrapper).find('.dataTables_paginate');
+					if (settings._iDisplayLength >= settings.fnRecordsDisplay()) {
+						pgr.hide();
+					}
+					else {
+						pgr.show();
+					}
+					console.log("DONE DRAWING");
+					$("#modalDialog").css({
+						width: "80%",
+						"max-height": "80%",
+						overflow: "scroll"
+					});
+					$("#ideaModal").css({
+						"max-height": "80%",
+						overflow: "scroll"
+					});
+					$("#commentTable").css({
+						height: "200px"
+					});
+
+					//make the table layout fixed
+					var table = document.getElementById('commentTable');
+					table.style.tableLayout="fixed";
+
+					table.style.whiteSpace = "normal";
+					table.style.wordBreak="normal";
+				}
+		});
+	});
 }
