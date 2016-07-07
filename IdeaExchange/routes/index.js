@@ -27,15 +27,15 @@ router.get('/newIdea', function(req, res, next){
   res.render('newIdea');
 });
 
-router.post('/newIdea', function (req, res, next){
+router.post('/newIdea/submit', function (req, res, next){
+  var list = req.body.tagline.split(',');
   var newIdea = new Idea({
-    creator: req.body.creator,
-    description: req.body.description,
     name: req.body.name,
-    tagline: req.body.tagline
+    description: req.body.description,
+    tagline: list
   });
 
-  newIdea.save(function(err, idea){
+  newIdea.save(function(err, newIdea){
     if (err) throw err;
     console.log("saved!");
     res.json("success");
@@ -59,7 +59,6 @@ router.get('/testIdea', function(req, res, next) {
   newIdea.save(function(err, idea){
     if (err) throw err;
     console.log("saved!");
-
   });
 });
 

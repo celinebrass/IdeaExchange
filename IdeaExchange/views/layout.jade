@@ -3,10 +3,10 @@ html(lang='en')
   head
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
-    block preLinkedScripts
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     script(src='/bootstrap/js/bootstrap.min.js')
+    block preLinkedScripts
 
     style.
       .alert.alert-dismissable {
@@ -27,6 +27,7 @@ html(lang='en')
       .alert-success {
         border-color: #468847;
       }
+      .modal { background: rgba(000, 000, 000, 0.8); min-height:1000000px; }
 
     block linkedStyles
 
@@ -47,10 +48,12 @@ html(lang='en')
             ul.nav.navbar-nav
               //li
               //  a(href='../') Home
-              //li
-              //  a(href='../ideas/') All Ideas
+              li
+                a(href='../') All Ideas
               li
                 a(href='../newIdea/') Submit Idea
+              li
+                a(href='../bubbles/') Bubbles
 
     br
 
@@ -59,11 +62,25 @@ html(lang='en')
     .hidden.visible-xs
       br
       br
-
+    //
+      #myModal.modal.fade(data-backdrop='false')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4.modal-title Enter your email for full access
+          .modal-body
+            p Enter your Capital One email
+            form
+              .form-group
+                input.form-control(type='email', placeholder='Email Address')
+              button.btn.btn-primary(type='submit') Enter
 
     block content
 
     block linkedScripts
         script(src='/javascripts/typeahead.jquery.js')
   .navbar.navbar-default.navbar-fixed-bottom
-    img.center-block(src='/images/C1_Core_G_2955_1807_R.jpeg', height='100', width='300')
+    &nbsp
+    img.center-block(src='/images/C1_Core_G_2955_1807_R.jpeg', height='50', width='150')
+    &nbsp

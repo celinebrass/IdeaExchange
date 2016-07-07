@@ -1,4 +1,18 @@
 extends layout
+block preLinkedScripts
+  script(type='text/javascript').
+    $(document).ready(function(){
+    if(document.cookie.indexOf("email") >= 0) {}
+    else{
+      $("#myModal").modal('show');
+    }
+    });
+  script(type='text/javascript').
+    function SAVETHECOOKIE() {
+    $("#myModal").modal('hide');
+    var email = $("#email").val();
+    document.cookie = "email=" + email;
+    }
 
 block content
   .row
@@ -11,6 +25,17 @@ block content
           th Discussion
         tbody
     .col-sm-2
+  #myModal.modal.fade(data-backdrop='false')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.modal-title Enter your email for full access
+        .modal-body
+          p Enter your Capital One email
+          .form-group
+            input.form-control(type='email', placeholder='Email Address', id='email')
+          button.btn.btn-primary(type='submit', onclick="SAVETHECOOKIE()") Enter
 
 block linkedScripts
   script(src="/javascript/allIdeas.js")
