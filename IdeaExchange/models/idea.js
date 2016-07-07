@@ -11,13 +11,13 @@ var ideaSchema = new mongoose.Schema({
   description: {type: String, required: true},
   tags    : [String],
   createdOn : {type: Date, Default : Date.now},
-  likers  :   [String], 
+  likers  :   [String],
   files   :   [String],
   comments:   [{
     commenter: String,
     text:     String
   }],
-  claim:  {type: String, Default : ""}
+  claim:  {type: String}
 });
 
 // create and export to our app

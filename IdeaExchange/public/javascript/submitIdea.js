@@ -1,12 +1,17 @@
-/*jshint multistr: true */
-
-var allIdeas = null;
-var ideaTable = {};
-var currentRow;
-
 $(document).ready(function() {
 	populateTableAllIdeas();
+  $(document.getElementById("formSubmit").submit(function(event) {
 
+    var email = getCookie("email");
+    var row = $(this);
+    var rowData = allIdeas.row(row).data();
+    var tagString = "";
+    for(var i = 0; i < rowData.tags.length; i++){
+      tagString += rowData.tags[i];
+      tagString += " ";
+    }
+    rowData
+  });
   // upon clicking each row in the recent activity table
 	$('#allIdeas tbody').on('click', 'tr', function (e) {
     // Get the row where we clicked
