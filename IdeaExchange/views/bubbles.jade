@@ -1,5 +1,9 @@
 extends layout
-  
+
+block content
+  form(name='filterBubbles', onkeyup='return handleChange()')
+    input#myTag(type='text', maxlength='')
+      
 block linkedScripts
   script(src="https://d3js.org/d3.v3.min.js")
   script(src="/javascript/allIdeasBubbles.js")

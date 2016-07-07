@@ -4,15 +4,41 @@ $(document).ready(function() {
 	populateBubbleAllIdeas();
 });
 
+function handleChange(event) {
+	d3.json("/ideas", function(data) {
+
+		var tag = document.getElementById("myTag").value;
+		var color = d3.scale.category10()
+				.domain(d3.range(data.length));
+
+		if (tag == "") {
+			for (var i = 0; i < data.length; i++) {
+				document.getElementById(i).style.fill = ""+color(document.getElementById(i).attributes.cluster.value);
+			}
+		}
+		else {
+			for (var i = 0; i < data.length; i++) {
+				if (!data[i].tags.includes(tag)) {
+					document.getElementById(i).style.fill = 'rgb(200,200,200)';
+				}
+				else {
+					document.getElementById(i).style.fill = ""+color(document.getElementById(i).attributes.cluster.value);
+				};
+			}
+		}
+	});
+	return false;
+}
+
 function populateBubbleAllIdeas() {
-   d3.json("/ideas", function(data) {
-    console.log(d3);
+	d3.json("/ideas", function(data) {
+
     var width = window.innerWidth,
-      height = window.innerHeight,
+      height = window.innerHeight*0.75,
       padding = 1.5, // separation between same-color circles
       clusterPadding = 6, // separation between different-color circles
       maxRadius = 12;
-      minRadiusSq = 10;
+      minRadiusSq = Math.sqrt(data.length*100) + 10;
 
     var n = data.length, // total number of circles
         m = 1; // number of distinct clusters
@@ -21,7 +47,6 @@ function populateBubbleAllIdeas() {
     var color = d3.scale.category10()
         .domain(d3.range(n));
 
-    console.log(color);
     // The largest node for each cluster.
     var clusters = new Array(m);
     var count = 0;
@@ -42,7 +67,7 @@ function populateBubbleAllIdeas() {
       var r = Math.sqrt(data[count].likers.length) + minRadiusSq,
           label = data[count].name,
           o = r,
-          d = {cluster: i, originalR: o, radius: r, label: label};
+          d = {cluster: i, originalR: o, radius: r, label: label, id: count};
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       count++;
       return d;
@@ -65,11 +90,24 @@ function populateBubbleAllIdeas() {
         .enter().append("circle")
         .attr("r", function(d) { return d.radius; })
         .attr("o", function(d) { return d.originalR; })
+				.attr("id", function(d) { return d.id; })
+				.attr("cluster", function(d) { return d.cluster; })
         .style("fill", function(d) { return color(d.cluster); })
         .call(force.drag)
         .on("mouseover", onMouseover)
         .on("click", onClick)
         .on("mouseleave", onMouseleave);
+
+		console.log(circle);
+		var text = svg.selectAll("text")
+	      .data(nodes)
+	      .enter()
+	      .append("text")
+				.attr("x", function(d) {return d.x - d.radius/2})
+        .attr("y", function(d) {return d.y})
+				.attr("font-size", function(d) {return d.radius/3})
+				.text(function(d) {return d.label})
+				.call(force.drag);
 
     function tick(e) {
       circle
@@ -77,6 +115,11 @@ function populateBubbleAllIdeas() {
           .each(collide(0.5))
           .attr("cx", function(d) { return d.x; })
           .attr("cy", function(d) { return d.y; });
+			text
+					.each(cluster(10 * e.alpha * e.alpha))
+					.each(collide(0.5))
+					.attr("x", function(d) { return d.x - d.radius/2; })
+					.attr("y", function(d) { return d.y; });
     }
 
     function onMouseover() {
@@ -96,6 +139,10 @@ function populateBubbleAllIdeas() {
       var circle = d3.select(this);
       circle.transition().duration(200)
         .attr("r", circle.attr("o"));
+			var firstChild = this.parentNode.firstChild;
+			if (firstChild) {
+					this.parentNode.insertBefore(this, firstChild);
+			}
     }
 
     // Move d to be adjacent to the cluster node.
