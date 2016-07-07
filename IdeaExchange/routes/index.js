@@ -34,10 +34,9 @@ router.post('/newIdea/submit', function (req, res, next){
     tagline: req.body.tagline,
     description: req.body.description,
     tags: list,
-    claim: "",
-    likers: [""],
-    files: [""],
-    comments: [""],
+    likers: [],
+    files: [],
+    comments: [],
     creator: req.body.email
   });
 

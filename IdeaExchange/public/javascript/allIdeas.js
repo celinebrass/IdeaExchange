@@ -22,9 +22,8 @@ $(document).ready(function() {
     document.getElementById("descriptionParagraph").innerHTML = rowData.description + "\n";
     document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
     document.getElementById("likesModal").innerHTML = rowData.likers.length + " likes";
-
+		console.log(rowData.claim);
     document.getElementById("claimedParagraph").innerHTML = (rowData.claim ? "Claimed by " + rowData.claim : "Not claimed yet.");
-
     document.getElementById('modalDialog').style.Width = "200%";
 
     currentRow=rowData._id;
@@ -82,7 +81,7 @@ $(document).ready(function() {
 
     });
 
-    $("#modalLike").click(function(event) {
+    $("#modalClaim").click(function(event) {
 
       /* stop form from submitting normally */
       event.preventDefault();
@@ -96,7 +95,7 @@ $(document).ready(function() {
         idea: currentRow,
         name: getCookie("email")
       });
-      document.getElementById("likesModal").innerHTML = (rowData.likers.length + 1) + " likes";
+      document.getElementById("claimedParagraph").innerHTML = "Claimed by you!";
 
       /* Alerts the results */
       posting.done(function( data ) {
