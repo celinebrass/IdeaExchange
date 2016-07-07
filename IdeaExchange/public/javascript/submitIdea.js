@@ -1,17 +1,22 @@
-/*jshint multistr: true */
-
-var allIdeas = null;
-var ideaTable = {};
-var currentRow;
-
 $(document).ready(function() {
 	populateTableAllIdeas();
-  var rowData;
+  $(document.getElementById("formSubmit").submit(function(event) {
+
+    var email = getCookie("email");
+    var row = $(this);
+    var rowData = allIdeas.row(row).data();
+    var tagString = "";
+    for(var i = 0; i < rowData.tags.length; i++){
+      tagString += rowData.tags[i];
+      tagString += " ";
+    }
+    rowData
+  });
   // upon clicking each row in the recent activity table
 	$('#allIdeas tbody').on('click', 'tr', function (e) {
     // Get the row where we clicked
     var row = $(this);
-    rowData = allIdeas.row(row).data();
+    var rowData = allIdeas.row(row).data();
     var tagString = "";
     for(var i = 0; i < rowData.tags.length; i++){
       tagString += rowData.tags[i];
@@ -21,7 +26,6 @@ $(document).ready(function() {
     document.getElementById("tagParagraph").innerHTML = rowData.tagline;
     document.getElementById("descriptionParagraph").innerHTML = rowData.description + "\n";
     document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
-    document.getElementById("likesModal").innerHTML = rowData.likers.length + " likes";
 
     document.getElementById('modalDialog').style.Width = "200%";
 
@@ -55,32 +59,27 @@ $(document).ready(function() {
 
 
     });
-
-    $("#modalLike").click(function(event) {
-
-      /* stop form from submitting normally */
-      event.preventDefault();
-      /* get the action attribute from the <form action=""> element */
-      var $form = $( this ),
-          url = $form.attr( 'action' );
-      console.log("LIKEING SHIT");
-
-      /* Send the data using post with element id name and name2*/
-      var posting = $.post( '/like', {
-        idea: currentRow,
-        name: getCookie("email")
-      });
-      document.getElementById("likesModal").innerHTML = (rowData.likers.length + 1) + " likes";
-
-      /* Alerts the results */
-      posting.done(function( data ) {
-        alert('success');
-      });
-
-
-    });
 });
 
+function submitComment(){
+  /* get the action attribute from the <form action=""> element */
+  var $form = $( this ),
+      url = $form.attr( 'action' );
+
+  /* Send the data using post with element id name and name2*/
+  var posting = $.post( '/addComment', {
+    comment: $('#commentText').val(),
+    idea: currentRow,
+    name: getCookie("email")
+  });
+  document.getElementById("commentText").value = "";
+
+
+  /* Alerts the results */
+  posting.done(function( data ) {
+    alert('success');
+  });
+}
 
 function getCookie(c_name)
 {
@@ -131,8 +130,9 @@ function populateTableAllIdeas() {
           },
           render :
           function(data, type, row){
-            return "<div id=scrollingDiv> <p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p></div><div id=pictureDiv> <img src=/images/likeImage.png class=commImg id=facebookLike><p id=little> +"+ data.likers.length + "</p><img src=/images/comment.png class=commImg id=commentPic><p id=little> +"+ data.comments.length + "</p></div>";
+            return "<div id=scrollingDiv> <p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p></div><div id=pictureDiv> <img src=/images/likeImage.png id=facebookLike><p id=little> +"+ data.likers.length + "</p><img src=/images/comment.png id=commentPic><p id=little> +"+ data.comments.length + "</p></div>";
           }
+
         }
 			],
 			language: {
