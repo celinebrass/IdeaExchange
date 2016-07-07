@@ -67,7 +67,7 @@ function populateBubbleAllIdeas() {
           currentClusterTag.push(data[count].tags[0]);
         }
       }
-      var r = (data[count].likers.length)/25 + 10,
+      var r = (data[count].likers.length)/data.length*10 + 10,
           label = data[count].name,
           o = r,
           d = {cluster: i, originalR: o, radius: r, label: label, id: count};
@@ -194,7 +194,7 @@ function populateBubbleAllIdeas() {
 			}
 			document.getElementById('curIdea').innerHTML = "";
 			document.getElementById('curTags').innerHTML = "";
-			document.getElementById('curLikes').innterHTML = "";
+			document.getElementById('curLikes').innerHTML = "";
 			document.getElementById("t"+this.id).innerHTML = data[this.id].name;
     }
 
