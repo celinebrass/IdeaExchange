@@ -13,16 +13,16 @@ function handleChange(event) {
 
 		if (tag == "") {
 			for (var i = 0; i < data.length; i++) {
-				document.getElementById(i).style.fill = ""+color(document.getElementById(i).attributes.cluster.value);
+				document.getElementById(i).style.opacity = '1';
 			}
 		}
 		else {
 			for (var i = 0; i < data.length; i++) {
-				if (!data[i].tags.includes(tag)) {
-					document.getElementById(i).style.fill = 'rgb(200,200,200)';
+				if (!data[i].tags.includes(tag) && !data[i].name.toLowerCase().includes(tag) && !data[i].tagline.toLowerCase().includes(tag) && !data[i].description.toLowerCase().includes(tag)) {
+					document.getElementById(i).style.opacity = '0.4';
 				}
 				else {
-					document.getElementById(i).style.fill = ""+color(document.getElementById(i).attributes.cluster.value);
+					document.getElementById(i).style.opacity = '1';
 				};
 			}
 		}
@@ -33,8 +33,8 @@ function handleChange(event) {
 function populateBubbleAllIdeas() {
 	d3.json("/ideas", function(data) {
 
-    var width = window.innerWidth,
-      height = window.innerHeight*0.75,
+    var width = screen.width,
+      height = screen.height,
       padding = 1.5, // separation between same-color circles
       clusterPadding = 6, // separation between different-color circles
       maxRadius = 12;
@@ -97,10 +97,9 @@ function populateBubbleAllIdeas() {
         .style("fill", function(d) { return color(d.cluster); })
         .call(force.drag)
         .on("mouseover", onMouseover)
-        .on("click", onClick)
-        .on("mouseleave", onMouseleave);
+				.on("mouseleave", onMouseleave)
+        .on("click", onClick);
 
-		console.log(circle);
 		var text = svg.selectAll("text")
 	      .data(nodes)
 	      .enter()
@@ -128,6 +127,7 @@ function populateBubbleAllIdeas() {
     function onMouseover() {
       var circle = d3.select(this);
 			document.getElementById('curIdea').innerHTML = this.attributes.label.value;
+			document.getElementById('curTags').innerHTML = data[this.id].tags;
 			text[0][this.id].parentElement.appendChild(text[0][this.id]);
       circle.transition().duration(400)
         .attr("r", circle.attr("o") * 1 + 10 );
@@ -140,7 +140,42 @@ function populateBubbleAllIdeas() {
 			newtext.parentElement.appendChild(newtext);
       circle.transition().duration(500)
         .attr("r", 400);
-			document.getElementById("t"+this.id).innerHTML = "<tspan>" + "Hello "+"</tspan>"+"<tspan>" + data[this.id].description+"</tspan>";
+			document.getElementById("t"+this.id).innerHTML = "<tspan>" + data[this.id].creator + " </tspan>" +
+																											 "<tspan>" + data[this.id].tagline + " </tspan>" +
+																											 "<tspan>" + data[this.id].description + "</tspan>";
+		  var tagString = "";
+	    for(var i = 0; i < data[this.id].tags.length; i++){
+	      tagString += data[this.id].tags[i];
+	      tagString += " ";
+	    }
+		 	document.getElementById("modalTitle").innerHTML = data[this.id].name;
+	    document.getElementById("tagParagraph").innerHTML = data[this.id].tagline;
+	    document.getElementById("descriptionParagraph").innerHTML = data[this.id].description + "\n";
+	    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
+			$("#bubbleModal").modal('show');
+
+		/* attach a submit handler to the form */
+			$("#bubbleCommentForm").submit(function(event) {
+
+				/* stop form from submitting normally */
+				event.preventDefault();
+				/* get the action attribute from the <form action=""> element */
+				var $form = $( this ),
+						url = $form.attr( 'action' );
+
+				/* Send the data using post with element id name and name2*/
+				var posting = $.post( '/addComment', {
+					comment: $('#bubbleCommentText').val(),
+					idea: currentRow,
+					name: getCookie("email")
+				});
+				document.getElementById("commentText").value = "";
+
+				/* Alerts the results */
+				posting.done(function( data ) {
+					alert('success');
+				});
+			});
     }
 
     function onMouseleave() {
@@ -153,9 +188,25 @@ function populateBubbleAllIdeas() {
 					this.parentNode.insertBefore(this, firstChild);
 			}
 			document.getElementById('curIdea').innerHTML = "";
+			document.getElementById('curTags').innerHTML = "";
 			document.getElementById("t"+this.id).innerHTML = data[this.id].name;
     }
 
+		function getCookie(c_name)
+		{
+		    var i,x,y,ARRcookies=document.cookie.split(";");
+
+		    for (i=0;i<ARRcookies.length;i++)
+		    {
+		        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		        x=x.replace(/^\s+|\s+$/g,"");
+		        if (x==c_name)
+		        {
+		            return unescape(y);
+		        }
+		     }
+		}
     // Move d to be adjacent to the cluster node.
     function cluster(alpha) {
       return function(d) {

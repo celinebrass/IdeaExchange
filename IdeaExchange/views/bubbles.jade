@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(name='filterBubbles', onkeyup='return handleChange()' style='margin-left: 5%')
+  form(name='filterBubbles', onkeyup='return handleChange()' style='margin-left: 5%;height:200px;width:200px;border:1px solid rgb(240,240,240);position:fixed;float:left;padding: 20px 20px 20px 20px;')
     input#myTag(type='text', maxlength='')
     p
       span Total Ideas: 
@@ -9,8 +9,40 @@ block content
     p
       span Current Idea: 
       span#curIdea
-
-    
+    p
+      span Idea Tags: 
+      span#curTags
+    #bubbleModal.modal.fade(data-backdrop='false')
+        .modal-dialog#modalBDialog
+          .modal-content#modalBLALA
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+              h3.modal-title#modalTitle
+            .modal-body
+              div#tags
+                p#tagParagraph
+              h4 Description:
+              div#description
+                p#descriptionParagraph
+              h5 Tags 
+                p#tagList
+              table#bubbleCommentTable.table.table-striped.table-hover.col-sm-12
+                thead#tableLALA Comments
+                thead
+                thead
+                tbody
+            .modal-footer
+            form#bubbleCommentForm.form-horizontal
+              fieldset
+                .form-group
+                  label.col-lg-2.control-label(for='comment') Comment
+                  .col-lg-10
+                    textarea#bubbleCommentText.textArea.form-control(rows='3')
+                .form-group
+                  .col-sm-9
+                  button#addComment.btn.btn-info(type="submit") Add Comment
 block linkedScripts
   script(src="https://d3js.org/d3.v3.min.js")
   script(src="/javascript/allIdeasBubbles.js")
+  link(href='/stylesheets/bubblestyle.css', rel='stylesheet')
