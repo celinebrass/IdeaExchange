@@ -13,16 +13,16 @@ function handleChange(event) {
 
 		if (tag == "") {
 			for (var i = 0; i < data.length; i++) {
-				document.getElementById(i).style.fill = ""+color(document.getElementById(i).attributes.cluster.value);
+				document.getElementById(i).style.opacity = '1';
 			}
 		}
 		else {
 			for (var i = 0; i < data.length; i++) {
 				if (!data[i].tags.includes(tag)) {
-					document.getElementById(i).style.fill = 'rgb(200,200,200)';
+					document.getElementById(i).style.opacity = '0.4';
 				}
 				else {
-					document.getElementById(i).style.fill = ""+color(document.getElementById(i).attributes.cluster.value);
+					document.getElementById(i).style.opacity = '1';
 				};
 			}
 		}
@@ -33,8 +33,8 @@ function handleChange(event) {
 function populateBubbleAllIdeas() {
 	d3.json("/ideas", function(data) {
 
-    var width = window.innerWidth,
-      height = window.innerHeight*0.75,
+    var width = screen.width,
+      height = screen.height,
       padding = 1.5, // separation between same-color circles
       clusterPadding = 6, // separation between different-color circles
       maxRadius = 12;
@@ -97,10 +97,9 @@ function populateBubbleAllIdeas() {
         .style("fill", function(d) { return color(d.cluster); })
         .call(force.drag)
         .on("mouseover", onMouseover)
-        .on("click", onClick)
-        .on("mouseleave", onMouseleave);
+				.on("mouseleave", onMouseleave)
+        .on("click", onClick);
 
-		console.log(circle);
 		var text = svg.selectAll("text")
 	      .data(nodes)
 	      .enter()
@@ -128,6 +127,7 @@ function populateBubbleAllIdeas() {
     function onMouseover() {
       var circle = d3.select(this);
 			document.getElementById('curIdea').innerHTML = this.attributes.label.value;
+			document.getElementById('curTags').innerHTML = data[this.id].tags;
 			text[0][this.id].parentElement.appendChild(text[0][this.id]);
       circle.transition().duration(400)
         .attr("r", circle.attr("o") * 1 + 10 );
@@ -140,7 +140,9 @@ function populateBubbleAllIdeas() {
 			newtext.parentElement.appendChild(newtext);
       circle.transition().duration(500)
         .attr("r", 400);
-			document.getElementById("t"+this.id).innerHTML = "<tspan>" + "Hello "+"</tspan>"+"<tspan>" + data[this.id].description+"</tspan>";
+			document.getElementById("t"+this.id).innerHTML = "<tspan>" + data[this.id].creator + " </tspan>" +
+																											 "<tspan>" + data[this.id].tagline + " </tspan>" +
+																											 "<tspan>" + data[this.id].description + "</tspan>";
     }
 
     function onMouseleave() {
@@ -153,6 +155,7 @@ function populateBubbleAllIdeas() {
 					this.parentNode.insertBefore(this, firstChild);
 			}
 			document.getElementById('curIdea').innerHTML = "";
+			document.getElementById('curTags').innerHTML = "";
 			document.getElementById("t"+this.id).innerHTML = data[this.id].name;
     }
 
