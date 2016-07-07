@@ -114,7 +114,7 @@ function populateTableAllIdeas() {
           },
           render :
           function(data, type, row){
-            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + " + data.comments.length + " comments </p>";
+            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + " + data.comments.length + " comments</p>";
           }
         },
 			],

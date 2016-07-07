@@ -137,12 +137,8 @@ function populateBubbleAllIdeas() {
       var circle = d3.select(this);
 			var newtext = text[0][this.id];
       this.parentElement.appendChild(this);
-			newtext.parentElement.appendChild(newtext);
       circle.transition().duration(500)
         .attr("r", 400);
-			document.getElementById("t"+this.id).innerHTML = "<tspan>" + data[this.id].creator + " </tspan>" +
-																											 "<tspan>" + data[this.id].tagline + " </tspan>" +
-																											 "<tspan>" + data[this.id].description + "</tspan>";
 		  var tagString = "";
 	    for(var i = 0; i < data[this.id].tags.length; i++){
 	      tagString += data[this.id].tags[i];
