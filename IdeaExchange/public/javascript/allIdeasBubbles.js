@@ -65,10 +65,10 @@ function populateBubbleAllIdeas() {
         .enter().append("circle")
         .attr("r", function(d) { return d.radius; })
         .attr("o", function(d) { return d.originalR; })
-        .text(function(d) { return d.label; })
         .style("fill", function(d) { return color(d.cluster); })
         .call(force.drag)
         .on("mouseover", onMouseover)
+        .on("click", onClick)
         .on("mouseleave", onMouseleave);
 
     function tick(e) {
@@ -83,6 +83,13 @@ function populateBubbleAllIdeas() {
       var circle = d3.select(this);
       circle.transition().duration(300)
         .attr("r", circle.attr("o") * 1 + 10 );
+    }
+
+    function onClick() {
+      var circle = d3.select(this);
+      this.parentElement.appendChild(this);
+      circle.transition().duration(500)
+        .attr("r", 400);
     }
 
     function onMouseleave() {
