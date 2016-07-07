@@ -13,8 +13,8 @@ block content
       span Idea Tags: 
       span#curTags
     #bubbleModal.modal.fade(data-backdrop='false')
-        .modal-dialog#modalDialog
-          .modal-content#modalLALA
+        .modal-dialog#modalBDialog
+          .modal-content#modalBLALA
             .modal-header
               button.close(type='button', data-dismiss='modal', aria-label='Close')
                 span(aria-hidden='true') ×
@@ -27,21 +27,22 @@ block content
                 p#descriptionParagraph
               h5 Tags 
                 p#tagList
-              table#commentTable.table.table-striped.table-hover.col-sm-12
+              table#bubbleCommentTable.table.table-striped.table-hover.col-sm-12
                 thead#tableLALA Comments
                 thead
                 thead
                 tbody
             .modal-footer
-            form#commentForm.form-horizontal
+            form#bubbleCommentForm.form-horizontal
               fieldset
                 .form-group
                   label.col-lg-2.control-label(for='comment') Comment
                   .col-lg-10
-                    textarea#commentText.textArea.form-control(rows='3')
+                    textarea#bubbleCommentText.textArea.form-control(rows='3')
                 .form-group
                   .col-sm-9
                   button#addComment.btn.btn-info(type="submit") Add Comment
 block linkedScripts
   script(src="https://d3js.org/d3.v3.min.js")
   script(src="/javascript/allIdeasBubbles.js")
+  link(href='/stylesheets/bubblestyle.css', rel='stylesheet')
