@@ -324,7 +324,7 @@ var fakeNames = fakeFullNames.map(function(name) {
 
 })
 router.get('/testIdea', function(req, res, next) {
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 100; i++) {
     var startNameIndex = Math.floor(Math.random()*articleArr.length)
     var testName = articleArr.slice(startNameIndex,startNameIndex + 4);
     testName[0] = testName[0].substr(0,1).toUpperCase() + testName[0].substr(1,testName[0].length);
@@ -342,13 +342,13 @@ router.get('/testIdea', function(req, res, next) {
     var testTagLine = articleArr.slice(startTLineIndex,startTLineIndex+8);
     testTagLine[0] = testTagLine[0].substr(0,1).toUpperCase() + testTagLine[0].substr(1,testTagLine[0].length);
     testTagLine = testTagLine.join(" ");
-    testComments.map(function(x,i) {
+    for (var j = 0; j < testComments.length; j++) {
       var newComment = {
         commenter: fakeCreators[Math.floor(Math.random() * fakeCreators.length)],
         text: fakeComments[Math.floor(Math.random() * fakeComments.length)]
       }
-      return newComment;
-    })
+      testComments[j] = newComment;
+    }
     var newIdea = new Idea({
       name: testName,
       creator: fakeCreators[i],
