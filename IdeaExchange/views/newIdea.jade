@@ -1,31 +1,30 @@
 extends layout
 
 block content
-  form.form-horizontal
+  form.form-horizontal(action="submit",method="post")
     fieldset
-      legend Submit an idea
+      h1(id="h2") Submit an Idea
       .form-group
         label.col-lg-2.control-label(for='inputName') Idea Name
         .col-lg-10
-          input#inputName.form-control(type='text', placeholder='Name')
+          input#inputName.form-control(type='text',style="width:150px", placeholder='Name', name='name')
       .form-group
-        label.col-lg-2.control-label(for='inputCreator') Name of Creator
+        label.col-lg-2.control-label(for='tagLine') Tagline
         .col-lg-10
-          input#inputPassword.form-control(type='password', placeholder='Name of Creator')
-      .form-group
-        label.col-lg-2.control-label(for='tagLine') Tag line
-        .col-lg-10
-          input#inputName.form-control(type='text', placeholder='Tag Line')
+          input#tagLine.form-control(type='text',style="width:350px",placeholder='Short description',name='tagline')
       .form-group
         label.col-lg-2.control-label(for='textArea') Description
         .col-lg-10
-          textarea#textArea.form-control(rows='3')
+          textarea#textArea.form-control(rows='3',style="width:350px",name='description')
           span.help-block
        .form-group
-        label.col-lg-2.control-label(for='Tags') Tags
+        label.col-lg-2.control-label(for='Tags') Tags/Keywords
         .col-lg-10
-          input#inputName.form-control(type='text', placeholder='Tags')
+          input#Tags.form-control(type='text',style="width:350px",placeholder='Tags will be split by comma',name='tags')
       .form-group
         .col-lg-10.col-lg-offset-2
           button.btn.btn-default(type='reset') Cancel
           button.btn.btn-primary(type='submit') Submit
+          
+block linkedScripts
+  link(rel='stylesheets', href='/stylesheets/ideaStyle.css')  

@@ -27,37 +27,48 @@ router.get('/newIdea', function(req, res, next){
   res.render('newIdea');
 });
 
-router.post('/newIdea', function (req, res, next){
+router.post('/newIdea/submit', function (req, res, next){
+  var list = req.body.tagline.split(',');
   var newIdea = new Idea({
-    creator: req.body.creator,
-    description: req.body.description,
     name: req.body.name,
-    tagline: req.body.tagline
+    description: req.body.description,
+    tagline: list
   });
 
-  newIdea.save(function(err, idea){
+  newIdea.save(function(err, newIdea){
     if (err) throw err;
     console.log("saved!");
     res.json("success");
   });
 });
 
+router.post('/addComment', function(req, res, next){
+  console.log(req.body);
+  var newComment = {
+    commenter: req.body.name,
+    text: req.body.text
+  };
+
+  //Idea.findOneAndUpdate({_id:req.body.idea}, {$addTo});
+});
+
 ///////////TEST ROUTE//////////
 router.get('/testIdea', function(req, res, next) {
-  var testLikers = new Array(Math.Floor(Math.random()*40)+10);
-  console.log(testLikers.length);
+  //var testLikers = new Array(Math.Floor(Math.random()*40)+10);
+  //console.log(testLikers.length);
   var newIdea = new Idea({
+    name: "Test project name",
     creator: "jimbob",
-    description: "owiejeowijeowifjewoifj",
-    name: "testIdea",
-    tagline: "short",
-    likers: testLikers
+    description: "owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph\n is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot",
+
+    tagline: "Short and sweet description of your idea/project",
+    tags: ["tag1", "tag2", "LevelMoney", "Team Halo", "Alrighty mate"],
+    likers: ["celine", "seth", "goteam"]
   });
 
   newIdea.save(function(err, idea){
     if (err) throw err;
     console.log("saved!");
-
   });
 });
 
