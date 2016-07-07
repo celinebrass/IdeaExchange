@@ -46,7 +46,10 @@ $(document).ready(function() {
         idea: currentRow,
         name: getCookie("email")
       });
+			$('#commentTable').append("<tr><td><p id=CommenterText>" + getCookie("email") + ": \n</p> <p id=commentText>" + $('#commentText').val() + "</p></tr>");
       document.getElementById("commentText").value = "";
+
+
 
 
       /* Alerts the results */
@@ -98,9 +101,9 @@ $(document).ready(function() {
       document.getElementById("claimedParagraph").innerHTML = "Claimed by you!";
 
       /* Alerts the results */
-      posting.done(function( data ) {
-        alert('success');
-      });
+      // posting.done(function( data ) {
+      //   alert('success');
+      // });
 
 
     });
