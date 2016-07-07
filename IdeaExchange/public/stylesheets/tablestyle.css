@@ -52,11 +52,32 @@ table{
 #allIdeas_paginate{
   margin-bottom: 50px;
 }
-td {
-    max-width: 30%;
-    overflow: ellipsis;
-}
+
 
 .modal-backdrop.in {
     opacity: 0;
+}
+#ideaModal{
+  max-height: 100%;
+  overflow-y: scroll;
+  width: 100%
+}
+
+#modalLALA{
+  width: 100%;
+  padding: 0;
+  overflow-y: scroll;
+}
+#modalDialog{
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: scroll;
+}
+
+#commentTable{
+  width: 100%;
+}
+
+#tableLALA{
+  width: 100%
 }

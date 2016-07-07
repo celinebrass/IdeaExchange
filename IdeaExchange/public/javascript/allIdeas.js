@@ -17,13 +17,14 @@ $(document).ready(function() {
       tagString += rowData.tags[i];
       tagString += " ";
     }
-    console.log(rowData);
     document.getElementById("modalTitle").innerHTML = rowData.name;
     document.getElementById("tagParagraph").innerHTML = rowData.tagline;
     document.getElementById("descriptionParagraph").innerHTML = rowData.description + "\n";
     document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
 
     currentRow=rowData._id;
+    populateCommentTable(rowData.comments);
+
     $("#ideaModal").modal('show');
 	});
 
@@ -42,6 +43,8 @@ $(document).ready(function() {
         idea: currentRow,
         name: getCookie("email")
       });
+      document.getElementById("commentText").value = "";
+
 
       /* Alerts the results */
       posting.done(function( data ) {
@@ -131,6 +134,48 @@ function populateTableAllIdeas() {
 			}
 		});
 	});
+  }
+
+  function populateCommentTable(comments) {
+    console.log("populating comments table");
+  	$('#commentTable').DataTable({
+        aaData: comments,
+  			destroy: true,
+        "order": [ 0, 'desc' ],
+        "pagingType": "simple",
+        "pageLength" : 100,
+        scrollY:        200,
+        scrollCollapse: true,
+        searchable: false,
+  			aoColumns: [
+          {
+            data: {
+              commenter: "commenter",
+              text: "text"
+            },
+            render :
+            function(data, type, row){
+              console.log("DATA YAYYYY");
+              return "<p id=CommenterText>" + data.commenter + ": \n</p> <p id=commentText>" + data.text + "</p>";
+            }
+          }
+  			],
+  			language: {
+  				emptyTable: function () {
+  					return '<p class="text-center">There are no comments yet :( .</p>';
+  				}
+  			},
+  			drawCallback: function (settings) {
+  				var pgr = $(settings.nTableWrapper).find('.dataTables_paginate');
+  				if (settings._iDisplayLength >= settings.fnRecordsDisplay()) {
+  					pgr.hide();
+  				}
+  				else {
+  					pgr.show();
+  				}
+          console.log("DONE DRAWING");
+  			}
+  		});
 }
 
 function getCookie(c_name)
