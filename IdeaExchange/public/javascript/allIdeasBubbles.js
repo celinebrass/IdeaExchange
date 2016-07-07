@@ -1,9 +1,10 @@
 
+var currentRow;
+var rowData;
 
 $(document).ready(function() {
-	populateBubbleAllIdeas();
 
-	var currentRow;
+	populateBubbleAllIdeas();
 	/* attach a submit handler to the form */
     $("#modalComment").click(function(event) {
 
@@ -47,6 +48,8 @@ $(document).ready(function() {
         idea: currentRow,
         name: getCookie("email")
       });
+			console.log(currentRow);
+			console.log(rowData);
       document.getElementById("likesModal").innerHTML = (rowData.likers.length + 1) + " likes";
 
       /* Alerts the results */
@@ -220,7 +223,9 @@ function populateBubbleAllIdeas() {
 
     function onClick() {
       var circle = d3.select(this);
-			currentRow = this.id;
+			currentRow = data[this.id]._id;
+			rowData = data[this.id];
+			console.log(rowData);
 			var newtext = text[0][this.id];
       this.parentElement.appendChild(this);
       circle.transition().duration(500)
@@ -235,6 +240,7 @@ function populateBubbleAllIdeas() {
 	    document.getElementById("descriptionParagraph").innerHTML = data[this.id].description + "\n";
 	    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
 			document.getElementById("likesModal").innerHTML = data[this.id].likers.length + " likes";
+			console.log("HEl" + data[this.id].claim);
 			document.getElementById("claimedParagraph").innerHTML = (data[this.id].claim ? "Claimed by " + data[this.id].claim : "Not claimed yet.");
 			document.getElementById('modalDialog').style.Width = "200%";
 			populateCommentTable(this.id);
@@ -348,7 +354,6 @@ function populateCommentTable(i) {
 	console.log("populating comments table");
 	d3.json("/ideas",function(dat) {
 		var comments = dat[i].comments;
-		console.log(comments);
 		$('#commentTable').DataTable({
 				aaData: comments,
 				destroy: true,

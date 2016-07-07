@@ -385,8 +385,7 @@ router.get('/testIdea', function(req, res, next) {
       tagline: testTagLine,
       tags: fakeTags.slice(startTagIndex,startTagIndex+Math.ceil(Math.random()*5)),
       likers: fakeLikers,
-      comments: testComments,
-      claim: ""
+      comments: testComments
     });
 
     newIdea.save(function(err, idea){
