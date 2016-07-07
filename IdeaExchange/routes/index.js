@@ -44,14 +44,16 @@ router.post('/newIdea', function (req, res, next){
 
 ///////////TEST ROUTE//////////
 router.get('/testIdea', function(req, res, next) {
-  var testLikers = new Array(Math.Floor(Math.random()*40)+10);
-  console.log(testLikers.length);
+  //var testLikers = new Array(Math.Floor(Math.random()*40)+10);
+  //console.log(testLikers.length);
   var newIdea = new Idea({
+    name: "Test project name",
     creator: "jimbob",
-    description: "owiejeowijeowifjewoifj",
-    name: "testIdea",
-    tagline: "short",
-    likers: testLikers
+    description: "owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph owiejeowijeowifjewoifj This should be Looking SO LONG paragraph\n is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot \n nere is a newLIne woot woot",
+
+    tagline: "Short and sweet description of your idea/project",
+    tags: ["tag1", "tag2", "LevelMoney", "Team Halo", "Alrighty mate"],
+    likers: ["celine", "seth", "goteam"]
   });
 
   newIdea.save(function(err, idea){

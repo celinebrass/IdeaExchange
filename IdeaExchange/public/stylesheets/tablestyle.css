@@ -1,13 +1,54 @@
 #tableName{
+  font-size: 20px;
   margin: 1rem auto 1rem auto;
   text-align: center;
 }
 
+#tagSpan{
+  position: absolute;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  display: table-cell;
+  vertical-align: bottom;
+}
+
+#tagName{
+  position: absolute;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
 #tagName, #author{
   font-style: italic
+}
+
+#author{
+  bottom: 0;
+  display: inline-table;
+  vertical-align: bottom;
 }
 
 #tagline{
   font-weight: bold;
   color: #444444
+}
+
+#facebookLike{
+  width: 30%;
+  margin: auto
+}
+
+#commentCount{
+  text-align: center;
+}
+
+#likeCount{
+  text-align: center;
+}
+table{
+  display: block
+}
+td {
+    max-width: 30%;
+    height: 10%;
+    overflow: ellipsis;
 }

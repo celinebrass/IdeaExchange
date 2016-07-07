@@ -22,7 +22,7 @@ function populateTableAllIdeas() {
           width: "20%",
           render :
           function(data, type, row){
-            return "<h2 id=tableName>" +  data.name + "</h2> <p id=tagName>" + (data.tags[0] ? data.tags[0]: "") + (data.tags[1] ? ", " + data.tags[1]: "") + (data.tags[2] ? ", " + data.tags[2]: "") + "</p>";
+            return "<h2 id=tableName>" +  data.name + "</h2><p id=tagName>" + (data.tags[0] ? data.tags[0]: "") + (data.tags[1] ? ", " + data.tags[1]: "") + (data.tags[2] ? ", " + data.tags[2]: "") + "</p>";
           }
         },
 
@@ -47,7 +47,7 @@ function populateTableAllIdeas() {
           },
           render :
           function(data, type, row){
-            return "<img src=/images/likeImage.png width=30rem height=30rem id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + comments </p>";
+            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + comments </p>";
           }
         },
 			],
@@ -66,19 +66,5 @@ function populateTableAllIdeas() {
 				}
 			}
 		});
-
-
-		var $rows = $('#allIdeas tr');
-			$rows.each(function(i, item) {
-	    	$this = $(item);
-	    	$this.addClass('allIdeas');
-	    });
-
-		//make the table layout fixed
-		var table = document.getElementById('allIdeas');
-		table.style.tableLayout="fixed";
-		table.style.whiteSpace = "normal";
-		table.style.wordBreak="normal";
-
 	});
 }
