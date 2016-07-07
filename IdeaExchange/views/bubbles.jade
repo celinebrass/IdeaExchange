@@ -1,9 +1,16 @@
 extends layout
 
 block content
-  form(name='filterBubbles', onkeyup='return handleChange()')
+  form(name='filterBubbles', onkeyup='return handleChange()' style='margin-left: 5%')
     input#myTag(type='text', maxlength='')
-      
+    p
+      span Total Ideas: 
+      span#numIdeas
+    p
+      span Current Idea: 
+      span#curIdea
+
+    
 block linkedScripts
   script(src="https://d3js.org/d3.v3.min.js")
   script(src="/javascript/allIdeasBubbles.js")
