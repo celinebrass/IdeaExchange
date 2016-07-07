@@ -133,7 +133,7 @@ function populateTableAllIdeas() {
 			destroy: true,
 			data: data,
 			"order": [ 0, 'desc' ],
-      "pagingType": "simple",
+      "pagingType": "full",
 			"pageLength" : 10,
 			columns: [
         {

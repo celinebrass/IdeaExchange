@@ -94,6 +94,7 @@ function handleChange(event) {
 
 		if (tag == "") {
 			for (var i = 0; i < data.length; i++) {
+				document.getElementById(i).attributes.old_opacity = document.getElementById(i).style.opacity;
 				document.getElementById(i).style.opacity = '0.75';
 				document.getElementById("t"+i).style.opacity = '1';
 			}
@@ -101,10 +102,12 @@ function handleChange(event) {
 		else {
 			for (var i = 0; i < data.length; i++) {
 				if (!data[i].tags.includes(tag) && !data[i].name.toLowerCase().includes(tag) && !data[i].tagline.toLowerCase().includes(tag) && !data[i].description.toLowerCase().includes(tag)) {
+					document.getElementById(i).attributes.old_opacity = document.getElementById(i).style.opacity;
 					document.getElementById(i).style.opacity = '0.2';
 					document.getElementById("t"+i).style.opacity = '0';
 				}
 				else {
+					document.getElementById(i).attributes.old_opacity = document.getElementById(i).style.opacity;
 					document.getElementById(i).style.opacity = '1';
 					document.getElementById("t"+i).style.opacity = '1';
 				};
@@ -151,7 +154,7 @@ function populateBubbleAllIdeas() {
       var r = (data[count].likers.length)/data.length*10 + 10,
           label = data[count].name,
           o = r,
-          d = {cluster: i, originalR: o, radius: r, label: label, id: count};
+          d = {cluster: i, originalR: o, radius: r, label: label, id: count, old_opacity: 0.75};
       if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
       count++;
       return d;
@@ -216,6 +219,7 @@ function populateBubbleAllIdeas() {
 			this.parentElement.appendChild(this);
 			console.log(data[this.id].likers.length);
 			text[0][this.id].parentElement.appendChild(text[0][this.id]);
+			this.attributes.old_opacity = this.style.opacity;
       circle.transition().duration(400)
         .attr("r", circle.attr("o") * 1.5 )
 				.style("opacity",1);
@@ -275,7 +279,8 @@ function populateBubbleAllIdeas() {
 			var newtext = text[0][this.id];
       circle.transition().duration(400)
         .attr("r", circle.attr("o"))
-				.style("opacity", 0.75);
+				.style("opacity", this.attributes.old_opacity);
+			this.attributes.old_opacity = this.style.opacity;
 			var firstChild = this.parentNode.firstChild;
 			if (firstChild) {
 					this.parentNode.insertBefore(this, firstChild);
