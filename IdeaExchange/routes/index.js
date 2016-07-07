@@ -32,7 +32,8 @@ router.post('/newIdea/submit', function (req, res, next){
   var newIdea = new Idea({
     name: req.body.name,
     description: req.body.description,
-    tagline: list
+    tagline: list,
+    claim: null
   });
 
   newIdea.save(function(err, newIdea){
@@ -67,7 +68,8 @@ router.get('/testIdea', function(req, res, next) {
 
     tagline: "Short and sweet description of your idea/project",
     tags: ["tag1", "tag2", "LevelMoney", "Team Halo", "Alrighty mate"],
-    likers: ["celine", "seth", "goteam"]
+    likers: ["celine", "seth", "goteam"],
+    claim: null
   });
 
   newIdea.save(function(err, idea){

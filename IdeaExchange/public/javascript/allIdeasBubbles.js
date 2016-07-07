@@ -18,7 +18,7 @@ function handleChange(event) {
 		}
 		else {
 			for (var i = 0; i < data.length; i++) {
-				if (!data[i].tags.includes(tag)) {
+				if (!data[i].tags.includes(tag) && !data[i].name.toLowerCase().includes(tag) && !data[i].tagline.toLowerCase().includes(tag) && !data[i].description.toLowerCase().includes(tag)) {
 					document.getElementById(i).style.opacity = '0.4';
 				}
 				else {
@@ -143,6 +143,16 @@ function populateBubbleAllIdeas() {
 			document.getElementById("t"+this.id).innerHTML = "<tspan>" + data[this.id].creator + " </tspan>" +
 																											 "<tspan>" + data[this.id].tagline + " </tspan>" +
 																											 "<tspan>" + data[this.id].description + "</tspan>";
+		  var tagString = "";
+	    for(var i = 0; i < data[this.id].tags.length; i++){
+	      tagString += data[this.id].tags[i];
+	      tagString += " ";
+	    }
+		 	document.getElementById("modalTitle").innerHTML = data[this.id].name;
+	    document.getElementById("tagParagraph").innerHTML = data[this.id].tagline;
+	    document.getElementById("descriptionParagraph").innerHTML = data[this.id].description + "\n";
+	    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
+			$("#bubbleModal").modal('show');
     }
 
     function onMouseleave() {
