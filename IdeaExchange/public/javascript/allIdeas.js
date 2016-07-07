@@ -30,7 +30,7 @@ $(document).ready(function() {
 	});
 
   /* attach a submit handler to the form */
-    $("#commentForm").submit(function(event) {
+    $("#modalComment").click(function(event) {
 
       /* stop form from submitting normally */
       event.preventDefault();
@@ -55,6 +55,26 @@ $(document).ready(function() {
 
     });
 });
+
+function submitComment(){
+  /* get the action attribute from the <form action=""> element */
+  var $form = $( this ),
+      url = $form.attr( 'action' );
+
+  /* Send the data using post with element id name and name2*/
+  var posting = $.post( '/addComment', {
+    comment: $('#commentText').val(),
+    idea: currentRow,
+    name: getCookie("email")
+  });
+  document.getElementById("commentText").value = "";
+
+
+  /* Alerts the results */
+  posting.done(function( data ) {
+    alert('success');
+  });
+}
 
 function getCookie(c_name)
 {

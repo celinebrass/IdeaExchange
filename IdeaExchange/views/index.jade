@@ -48,24 +48,22 @@ block content
             h4 Description:
             div#description
               p#descriptionParagraph
-            .col-sm-4
+            .col-sm-12
               h5 Tags 
                 p#tagList
             form#commentForm
+              .col-sm-4
               .col-sm-8
                 input#modalClaim.btTxt.submit(type='image', src='/images/claim.png')
-                input#modalLike.btTxt.submit(type='image', src='/images/likeImage.png')
-                input#modalComment.btTxt.submit(type='image', src='/images/comment.png')
+                input#modalLike.btTxt(type='image', src='/images/likeImage.png')
+                input#modalComment.btTxt(type='image', src='/images/comment.png')
               .col-sm-12
                   fieldset
                     .form-group
-                      label.col-lg-2.control-label(for='comment') Comment
+                      label.col-lg-2.control-label(for='comment') Type comment below:
                       textarea#commentText.textArea.form-control(rows='3')
-                    .form-group
-                      .col-sm-9
-                      button#addComment.btn.btn-info(type="submit") Add Comment
             table#commentTable.table.table-striped.table-hover.col-sm-12
-              thead#tableLALA Comments
+              thead#tableLALA 
 
 
 
