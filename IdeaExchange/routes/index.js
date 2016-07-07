@@ -42,6 +42,16 @@ router.post('/newIdea/submit', function (req, res, next){
   });
 });
 
+router.post('/addComment', function(req, res, next){
+  console.log(req.body);
+  var newComment = {
+    commenter: req.body.name,
+    text: req.body.text
+  };
+
+  //Idea.findOneAndUpdate({_id:req.body.idea}, {$addTo});
+});
+
 ///////////TEST ROUTE//////////
 router.get('/testIdea', function(req, res, next) {
   //var testLikers = new Array(Math.Floor(Math.random()*40)+10);

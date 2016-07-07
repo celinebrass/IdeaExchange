@@ -27,13 +27,13 @@
   vertical-align: bottom;
 }
 
-#tagline{
+#tagline, #tagParagraph{
   font-weight: bold;
   color: #444444
 }
 
 #facebookLike{
-  width: 30%;
+  width: 50%;
   margin: auto
 }
 
@@ -45,10 +45,18 @@
   text-align: center;
 }
 table{
-  display: block
+  display: block;
+  margin-bottom: 30px;
+}
+
+#allIdeas_paginate{
+  margin-bottom: 50px;
 }
 td {
     max-width: 30%;
-    height: 10%;
     overflow: ellipsis;
+}
+
+.modal-backdrop.in {
+    opacity: 0;
 }

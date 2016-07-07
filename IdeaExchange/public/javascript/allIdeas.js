@@ -1,9 +1,72 @@
+/*jshint multistr: true */
+
 var allIdeas = null;
 var ideaTable = {};
+var currentRow;
 
 $(document).ready(function() {
 	populateTableAllIdeas();
+
+  // upon clicking each row in the recent activity table
+	$('#allIdeas tbody').on('click', 'tr', function (e) {
+    // Get the row where we clicked
+    var row = $(this);
+    var rowData = allIdeas.row(row).data();
+    var tagString = "";
+    for(var i = 0; i < rowData.tags.length; i++){
+      tagString += rowData.tags[i];
+      tagString += " ";
+    }
+    console.log(rowData);
+    document.getElementById("modalTitle").innerHTML = rowData.name;
+    document.getElementById("tagParagraph").innerHTML = rowData.tagline;
+    document.getElementById("descriptionParagraph").innerHTML = rowData.description + "\n";
+    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
+
+    currentRow=rowData._id;
+    $("#ideaModal").modal('show');
+	});
+
+  /* attach a submit handler to the form */
+    $("#commentForm").submit(function(event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          url = $form.attr( 'action' );
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( '/addComment', {
+        comment: $('#commentText').val(),
+        idea: currentRow,
+        name: getCookie("email")
+      });
+
+      /* Alerts the results */
+      posting.done(function( data ) {
+        alert('success');
+      });
+
+
+    });
 });
+
+function getCookie(c_name)
+{
+    var i,x,y,ARRcookies=document.cookie.split(";");
+
+    for (i=0;i<ARRcookies.length;i++)
+    {
+        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==c_name)
+        {
+            return unescape(y);
+        }
+     }
+}
 
 function populateTableAllIdeas() {
 	$.getJSON('/ideas', function(data) {
@@ -12,6 +75,7 @@ function populateTableAllIdeas() {
 			destroy: true,
 			data: data,
 			"order": [ 0, 'desc' ],
+      "pagingType": "simple",
 			"pageLength" : 10,
 			columns: [
         {
@@ -67,4 +131,20 @@ function populateTableAllIdeas() {
 			}
 		});
 	});
+}
+
+function getCookie(c_name)
+{
+    var i,x,y,ARRcookies=document.cookie.split(";");
+
+    for (i=0;i<ARRcookies.length;i++)
+    {
+        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==c_name)
+        {
+            return unescape(y);
+        }
+     }
 }
