@@ -46,10 +46,14 @@ router.post('/addComment', function(req, res, next){
   console.log(req.body);
   var newComment = {
     commenter: req.body.name,
-    text: req.body.text
+    text: req.body.comment
   };
 
-  //Idea.findOneAndUpdate({_id:req.body.idea}, {$addTo});
+  Idea.findOneAndUpdate({_id:req.body.idea}, {$addToSet:{comments:newComment}}, function(err){
+    if(err) throw err;
+    console.log("saved comment");
+    res.status(500);
+  });
 });
 
 ///////////TEST ROUTE//////////
