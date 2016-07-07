@@ -23,6 +23,8 @@ $(document).ready(function() {
     document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
     document.getElementById("likesModal").innerHTML = rowData.likers.length + " likes";
 
+    document.getElementById("claimedParagraph").innerHTML = (rowData.claim ? "Claimed by " + rowData.claim : "Not claimed yet.");
+
     document.getElementById('modalDialog').style.Width = "200%";
 
     currentRow=rowData._id;
@@ -67,6 +69,30 @@ $(document).ready(function() {
 
       /* Send the data using post with element id name and name2*/
       var posting = $.post( '/like', {
+        idea: currentRow,
+        name: getCookie("email")
+      });
+      document.getElementById("likesModal").innerHTML = (rowData.likers.length + 1) + " likes";
+
+      /* Alerts the results */
+      posting.done(function( data ) {
+        alert('success');
+      });
+
+
+    });
+
+    $("#modalLike").click(function(event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          url = $form.attr( 'action' );
+      console.log("CLAIMING SHIT");
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( '/claim', {
         idea: currentRow,
         name: getCookie("email")
       });
