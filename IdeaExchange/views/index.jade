@@ -51,21 +51,17 @@ block content
               p#descriptionParagraph
             h5 Tags 
               p#tagList
+            form#commentForm
+              fieldset
+                .form-group
+                  label.col-lg-2.control-label(for='comment') Comment
+                  textarea#commentText.textArea.form-control(rows='3')
+                .form-group
+                  .col-sm-9
+                  button#addComment.btn.btn-info(type="submit") Add Comment
             table#commentTable.table.table-striped.table-hover.col-sm-12
               thead#tableLALA Comments
-              thead
-              thead
-              tbody
-          .modal-footer
-          form#commentForm.form-horizontal
-            fieldset
-              .form-group
-                label.col-lg-2.control-label(for='comment') Comment
-                .col-lg-10
-                  textarea#commentText.textArea.form-control(rows='3')
-              .form-group
-                .col-sm-9
-                button#addComment.btn.btn-info(type="submit") Add Comment
+
 
 
 block linkedScripts
