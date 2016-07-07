@@ -57,6 +57,17 @@ router.post('/addComment', function(req, res, next){
   });
 });
 
+router.post('/like', function(req, res, next){
+  console.log(req.body);
+  var email = (req.body.name.split("@"))[0];
+  console.log(email);
+  Idea.findOneAndUpdate({_id:req.body.idea}, {$addToSet:{likers:email}}, function(err){
+    console.log(err);
+    if(err) throw err;
+    console.log("saved comment");
+    res.status(500);
+  });
+});
 ///////////TEST ROUTE//////////
 var article = "In communications and information processing, code is a system of rules to convert information—such as a letter, word, sound, image, or gesture—into"+
 "another form or representation, sometimes shortened or secret, for communication through a channel or storage in a medium. An early example is the invention of language, which enabled a person, through speech, to communicate what he or she saw, heard, felt, or thought to others. But speech limits the range of communication to the distance a voice can carry, and limits the audience to those present when the speech is uttered. The invention of writing, which converted spoken language into visual symbols, extended the range of communication across space and time."+
