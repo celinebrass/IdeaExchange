@@ -31,20 +31,20 @@ router.post('/newIdea/submit', function (req, res, next){
   var list = req.body.tags.split(',');
   var newIdea = new Idea({
     name: req.body.name,
-    creator: getCookie("email"),
     tagline: req.body.tagline,
     description: req.body.description,
     tags: list,
     claim: "",
     likers: [""],
     files: [""],
-    comments: [""]
+    comments: [""],
+    creator: req.body.email
   });
 
   newIdea.save(function(err, newIdea){
     if (err) throw err;
     console.log("saved!");
-    res.json("success");
+    res.redirect('/');
   });
 });
 

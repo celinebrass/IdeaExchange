@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form.form-horizontal(action="submit",method="post")  
+  form.form-horizontal#submitIdeaForm()  
     fieldset
       legend Submit an ideaTable
         style
@@ -26,7 +26,7 @@ block content
       .form-group
         .col-lg-10.col-lg-offset-2
           button.btn.btn-default(type='reset') Cancel
-          button.btn.btn-primary(type='submit') Submit  
+          button#submitIdeaButton.btn.btn-primary Submit  
 block linkedScripts
   script(src="/javascript/submitIdea.js")
   link(href='/stylesheets/tablestyle.css', rel='stylesheet')
