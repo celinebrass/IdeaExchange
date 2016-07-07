@@ -68,7 +68,7 @@ router.post('/like', function(req, res, next){
   Idea.findOneAndUpdate({_id:req.body.idea}, {$addToSet:{likers:email}}, function(err){
     console.log(err);
     if(err) throw err;
-    console.log("saved comment");
+    console.log("saved like");
     res.status(500);
   });
 });
@@ -80,7 +80,7 @@ router.post('/claim', function(req, res, next){
   Idea.findOneAndUpdate({_id:req.body.idea}, {claim: email}, function(err){
     console.log(err);
     if(err) throw err;
-    console.log("saved comment");
+    console.log("saved claim");
     res.status(500);
   });
 });

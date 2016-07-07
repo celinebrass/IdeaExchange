@@ -2,6 +2,84 @@
 
 $(document).ready(function() {
 	populateBubbleAllIdeas();
+
+	var currentRow;
+	/* attach a submit handler to the form */
+    $("#modalComment").click(function(event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          url = $form.attr( 'action' );
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( '/addComment', {
+        comment: $('#commentText').val(),
+        idea: currentRow,
+        name: getCookie("email")
+      });
+			$('#commentTable').append("<tr><td><p id=CommenterText>" + getCookie("email") + ": \n</p> <p id=commentText>" + $('#commentText').val() + "</p></tr>");
+      document.getElementById("commentText").value = "";
+
+
+
+
+      /* Alerts the results */
+      posting.done(function( data ) {
+        alert('success');
+      });
+
+
+    });
+
+    $("#modalLike").click(function(event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          url = $form.attr( 'action' );
+      console.log("LIKEING SHIT");
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( '/like', {
+        idea: currentRow,
+        name: getCookie("email")
+      });
+      document.getElementById("likesModal").innerHTML = (rowData.likers.length + 1) + " likes";
+
+      /* Alerts the results */
+      posting.done(function( data ) {
+        alert('success');
+      });
+
+
+    });
+
+    $("#modalClaim").click(function(event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          url = $form.attr( 'action' );
+      console.log("CLAIMING SHIT");
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( '/claim', {
+        idea: currentRow,
+        name: getCookie("email")
+      });
+      document.getElementById("claimedParagraph").innerHTML = "Claimed by you!";
+
+      /* Alerts the results */
+      // posting.done(function( data ) {
+      //   alert('success');
+      // });
+
+
+    });
 });
 
 function handleChange(event) {
@@ -142,6 +220,7 @@ function populateBubbleAllIdeas() {
 
     function onClick() {
       var circle = d3.select(this);
+			currentRow = this.id;
 			var newtext = text[0][this.id];
       this.parentElement.appendChild(this);
       circle.transition().duration(500)
@@ -155,6 +234,9 @@ function populateBubbleAllIdeas() {
 	    document.getElementById("tagParagraph").innerHTML = data[this.id].tagline;
 	    document.getElementById("descriptionParagraph").innerHTML = data[this.id].description + "\n";
 	    document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
+			document.getElementById("likesModal").innerHTML = data[this.id].likers.length + " likes";
+			document.getElementById("claimedParagraph").innerHTML = (data[this.id].claim ? "Claimed by " + data[this.id].claim : "Not claimed yet.");
+			document.getElementById('modalDialog').style.Width = "200%";
 			populateCommentTable(this.id);
 			$("#ideaModal").modal('show');
 
@@ -327,4 +409,20 @@ function populateCommentTable(i) {
 				}
 		});
 	});
+}
+
+function getCookie(c_name)
+{
+		var i,x,y,ARRcookies=document.cookie.split(";");
+
+		for (i=0;i<ARRcookies.length;i++)
+		{
+				x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+				y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+				x=x.replace(/^\s+|\s+$/g,"");
+				if (x==c_name)
+				{
+						return unescape(y);
+				}
+		 }
 }
