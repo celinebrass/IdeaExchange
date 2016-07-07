@@ -43,6 +43,7 @@ function populateBubbleAllIdeas() {
     var n = data.length, // total number of circles
         m = 1; // number of distinct clusters
 
+		document.getElementById("numIdeas").innerHTML = n;
 
     var color = d3.scale.category10()
         .domain(d3.range(n));
@@ -92,6 +93,7 @@ function populateBubbleAllIdeas() {
         .attr("o", function(d) { return d.originalR; })
 				.attr("id", function(d) { return d.id; })
 				.attr("cluster", function(d) { return d.cluster; })
+				.attr("label", function(d) { return d.label; })
         .style("fill", function(d) { return color(d.cluster); })
         .call(force.drag)
         .on("mouseover", onMouseover)
@@ -103,9 +105,10 @@ function populateBubbleAllIdeas() {
 	      .data(nodes)
 	      .enter()
 	      .append("text")
-				.attr("x", function(d) {return d.x - d.radius/2})
+				.attr("x", function(d) {return d.x - d.radius})
         .attr("y", function(d) {return d.y})
 				.attr("font-size", function(d) {return d.radius/3})
+				.attr("id", function(d) {return "t"+d.id})
 				.text(function(d) {return d.label})
 				.call(force.drag);
 
@@ -118,31 +121,39 @@ function populateBubbleAllIdeas() {
 			text
 					.each(cluster(10 * e.alpha * e.alpha))
 					.each(collide(0.5))
-					.attr("x", function(d) { return d.x - d.radius/2; })
+					.attr("x", function(d) { return d.x - d.radius; })
 					.attr("y", function(d) { return d.y; });
     }
 
     function onMouseover() {
       var circle = d3.select(this);
-      circle.transition().duration(300)
+			document.getElementById('curIdea').innerHTML = this.attributes.label.value;
+			text[0][this.id].parentElement.appendChild(text[0][this.id]);
+      circle.transition().duration(400)
         .attr("r", circle.attr("o") * 1 + 10 );
     }
 
     function onClick() {
       var circle = d3.select(this);
+			var newtext = text[0][this.id];
       this.parentElement.appendChild(this);
+			newtext.parentElement.appendChild(newtext);
       circle.transition().duration(500)
         .attr("r", 400);
+			document.getElementById("t"+this.id).innerHTML = "<tspan>" + "Hello "+"</tspan>"+"<tspan>" + data[this.id].description+"</tspan>";
     }
 
     function onMouseleave() {
       var circle = d3.select(this);
-      circle.transition().duration(200)
+			var newtext = text[0][this.id];
+      circle.transition().duration(400)
         .attr("r", circle.attr("o"));
 			var firstChild = this.parentNode.firstChild;
 			if (firstChild) {
 					this.parentNode.insertBefore(this, firstChild);
 			}
+			document.getElementById('curIdea').innerHTML = "";
+			document.getElementById("t"+this.id).innerHTML = data[this.id].name;
     }
 
     // Move d to be adjacent to the cluster node.
