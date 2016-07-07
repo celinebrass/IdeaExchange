@@ -22,10 +22,11 @@ $(document).ready(function() {
     document.getElementById("descriptionParagraph").innerHTML = rowData.description + "\n";
     document.getElementById("tagList").innerHTML = "\n\n"+ tagString;
 
+    document.getElementById('modalDialog').style.Width = "200%";
+
     currentRow=rowData._id;
     populateCommentTable(rowData.comments);
 
-    $("#ideaModal").modal('show');
 	});
 
   /* attach a submit handler to the form */
@@ -98,13 +99,14 @@ function populateTableAllIdeas() {
           data: {
             tagline : "tagline",
             description: "description",
-            creator: "creator"
+            creator: "creator",
+            likers: "likers",
+            comments: "comments"
           },
           render :
           function(data, type, row){
-            return "<p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p>";
+            return "<div id=scrollingDiv> <p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p></div><div id=pictureDiv> <img src=/images/likeImage.png id=facebookLike><p id=little> +"+ data.likers.length + "</p><img src=/images/comment.png id=commentPic><p id=little> +"+ data.comments.length + "</p></div>";
           }
-
         },
         {
           width: "15%",
@@ -142,11 +144,13 @@ function populateTableAllIdeas() {
         aaData: comments,
   			destroy: true,
         "order": [ 0, 'desc' ],
-        "pagingType": "simple",
-        "pageLength" : 100,
+        "bPaginate": false,
+        "bFilter": false,
+        "bInfo": false,
+        "filter": false,
         scrollY:        200,
         scrollCollapse: true,
-        searchable: false,
+        searching: false,
   			aoColumns: [
           {
             data: {
@@ -174,6 +178,27 @@ function populateTableAllIdeas() {
   					pgr.show();
   				}
           console.log("DONE DRAWING");
+          $("#modalDialog").css({
+            width: "80%",
+            "max-height": "80%",
+            overflow: "scroll"
+          });
+          $("#ideaModal").css({
+            "max-height": "80%",
+            overflow: "scroll"
+          });
+          $("#commentTable").css({
+            height: "200px"
+          });
+
+          //make the table layout fixed
+          var table = document.getElementById('commentTable');
+          table.style.tableLayout="fixed";
+
+          table.style.whiteSpace = "normal";
+          table.style.wordBreak="normal";
+
+          $("#ideaModal").modal('show');
   			}
   		});
 }

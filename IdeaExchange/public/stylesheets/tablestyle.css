@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+#allIdeas td{
+  height: 10px;
+  max-height: 10;
+}
 #tagSpan{
   position: absolute;
   margin-bottom: 0px;
@@ -31,11 +35,17 @@
   font-weight: bold;
   color: #444444
 }
-
-#facebookLike{
-  width: 50%;
-  margin: auto
+#little{
+  float: right;
+  font-style: italic
 }
+img{
+  width: 5%;
+  height: 8%;
+  margin: auto;
+  float: right
+}
+
 
 #commentCount{
   text-align: center;
@@ -44,40 +54,54 @@
 #likeCount{
   text-align: center;
 }
-table{
-  display: block;
-  margin-bottom: 30px;
-}
-
-#allIdeas_paginate{
-  margin-bottom: 50px;
-}
-
 
 .modal-backdrop.in {
     opacity: 0;
 }
 #ideaModal{
   max-height: 100%;
-  overflow-y: scroll;
+  overflow: scroll;
   width: 100%
 }
 
 #modalLALA{
   width: 100%;
   padding: 0;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 #modalDialog{
-  margin-left: auto;
-  margin-right: auto;
-  overflow-y: scroll;
+  margin: 3%;
+  overflow: scroll;
 }
 
 #commentTable{
   width: 100%;
 }
 
+#commentForm{
+  margin-left:0
+}
 #tableLALA{
   width: 100%
+}
+
+body {
+  padding-right: 0px !important
+}
+
+.modal-open {
+  overflow-y: auto;
+}
+
+#scrollingDiv{
+  overflow: hidden;
+  height: 100px;
+  max-height: 80%;
+}
+
+#modalLike, #modalComment, #modalClaim{
+  float: right;
+  height: 6%;
+  max-height: 6%;
+  width: 6%;
 }
