@@ -12,9 +12,13 @@ block content
     p
       span Idea Tags: 
       span#curTags
-    #bubbleModal.modal.fade(data-backdrop='false')
-        .modal-dialog#modalBDialog
-          .modal-content#modalBLALA
+    p
+      span Likes: 
+      span#curLikes
+      
+    #ideaModal.modal.fade(data-backdrop='false')
+        .modal-dialog#modalDialog
+          .modal-content#modalLALA
             .modal-header
               button.close(type='button', data-dismiss='modal', aria-label='Close')
                 span(aria-hidden='true') ×
@@ -25,24 +29,26 @@ block content
               h4 Description:
               div#description
                 p#descriptionParagraph
-              h5 Tags 
-                p#tagList
-              table#bubbleCommentTable.table.table-striped.table-hover.col-sm-12
-                thead#tableLALA Comments
-                thead
-                thead
-                tbody
-            .modal-footer
-            form#bubbleCommentForm.form-horizontal
-              fieldset
-                .form-group
-                  label.col-lg-2.control-label(for='comment') Comment
-                  .col-lg-10
-                    textarea#bubbleCommentText.textArea.form-control(rows='3')
-                .form-group
-                  .col-sm-9
-                  button#addComment.btn.btn-info(type="submit") Add Comment
+              .col-sm-12
+                h5 Tags 
+                  p#tagList
+              form#commentForm
+                .col-sm-4
+                .col-sm-8
+                  input#modalClaim.btTxt.submit(type='image', src='/images/claim.png')
+                  input#modalLike.btTxt(type='image', src='/images/likeImage.png')
+                  input#modalComment.btTxt(type='image', src='/images/comment.png')
+                .col-sm-12
+                    fieldset
+                      .form-group
+                        label.col-lg-2.control-label(for='comment') Type comment below:
+                        textarea#commentText.textArea.form-control(rows='3')
+              table#commentTable.table.table-striped.table-hover.col-sm-12
+                thead#tableLALA 
+                
 block linkedScripts
   script(src="https://d3js.org/d3.v3.min.js")
   script(src="/javascript/allIdeasBubbles.js")
-  link(href='/stylesheets/bubblestyle.css', rel='stylesheet')
+  script(src='//cdn.datatables.net/1.10.5/js/jquery.dataTables.js')
+  script(src='http://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/2/dataTables.bootstrap.js')
+  link(href='/stylesheets/tablestyle.css', rel='stylesheet')
