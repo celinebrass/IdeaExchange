@@ -127,8 +127,18 @@ function populateTableAllIdeas() {
           function(data, type, row){
             return "<div id=scrollingDiv> <p id=tagline>" +  data.tagline + "</p> <p id=description>" + data.description + "</p> <p id=author> Submitted by " + data.creator + "</p></div><div id=pictureDiv> <img src=/images/likeImage.png id=facebookLike><p id=little> +"+ data.likers.length + "</p><img src=/images/comment.png id=commentPic><p id=little> +"+ data.comments.length + "</p></div>";
           }
-
-        }
+        },
+        {
+          width: "15%",
+          data: {
+            likers : "likers",
+            //comments: "comments.length"
+          },
+          render :
+          function(data, type, row){
+            return "<img src=/images/likeImage.png id=facebookLike> <p id=likeCount> +" + data.likers.length + " on board!</p><p id=commentCount> + " + data.comments.length + " comments</p>";
+          }
+        },
 			],
 			language: {
 				emptyTable: function () {
